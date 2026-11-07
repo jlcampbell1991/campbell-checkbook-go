@@ -15,18 +15,18 @@ Create a fully‑functional Go web application that mirrors the existing Scala s
 ## Overall Milestone Strategy
 Milestones are sized to be comfortably implementable within a single 90 k‑token session. Each milestone adds a self‑contained domain (API routes, data models, repository, and tests) and can be compiled & tested independently.
 
-| ID | Title | Objective | Prereqs | Approx. token budget |
-|----|-------|-----------|----------|----------------------|
-| **M01** | **Project scaffolding & core server** | Set up Go module, main entry point, chi router, shared DB init, config loading. | None | ≤ 15 k |
-| **M02** | **Accounts domain** | Define `Account` model, repository (CRUD), routes (`/accounts`), request/response structs, and unit tests. | M01 | ≤ 25 k |
-| **M03** | **Line‑items domain** | Model `LineItem`, repository, routes (`/line‑items`), validation, tests. | M02 | ≤ 25 k |
-| **M04** | **Transactions domain** | Model `Transaction`, CSV import endpoint, repository, routes, tests. | M03 | ≤ 30 k |
-| **M05** | **Pay‑days domain** | Models `PayDay` & `PayDayDeposit`, repositories, routes, tests. | M04 | ≤ 25 k |
-| **M06** | **Reconcile import‑job domain** | Models `ImportJob`, repository, background worker stub, routes, tests. | M05 | ≤ 30 k |
-| **M07** | **LLM (Hermes) client** | Go client mirroring `HermesClient.scala`, request/response structs, integration tests (mock server). | M06 | ≤ 25 k |
-| **M08** | **Utility package** | `Currency` handling, DB helper (`DBUtils`), logger, error types, tests. | M01 | ≤ 15 k |
-| **M09** | **Session management & auth** | Session model, JWT middleware (if present in Scala), routes, tests. | M02 | ≤ 20 k |
-| **M10** | **Full‑stack sanity check** | Wire all domains together, run end‑to‑end smoke test (create account → add line‑item → transaction → reconcile). | M01‑M09 | ≤ 30 k |
+| ID | Title | Objective | Prereqs | Approx. token budget | Scala source files | Go reference files (campbell‑tube‑go) |
+|----|-------|-----------|----------|----------------------|--------------------|-----------------------------------|
+| **M01** | **Project scaffolding & core server** | Set up Go module, main entry point, chi router, shared DB init, config loading. | None | ≤ 15 k | `src/main/scala/jamble/campbell/checkbook/Main.scala`, `src/main/scala/jamble/campbell/checkbook/CheckbookServer.scala` | `cmd/main.go`, `internal/db/buildpostgresurl.go`, `internal/db/migrate.go` |
+| **M02** | **Accounts domain** | Define `Account` model, repository (CRUD), routes (`/accounts`), request/response structs, and unit tests. | M01 | ≤ 25 k | `src/main/scala/jamble/campbell/checkbook/accounts/AccountRepository.scala`, `src/main/scala/jamble/campbell/checkbook/accounts/AccountsRoutes.scala`, `src/main/scala/jamble/campbell/checkbook/accounts/models.scala` | `internal/db/buildpostgresurl.go` |
+| **M03** | **Line‑items domain** | Model `LineItem`, repository, routes (`/line‑items`), validation, tests. | M02 | ≤ 25 k | `src/main/scala/jamble/campbell/checkbook/line_items/LineItem.scala`, `src/main/scala/jamble/campbell/checkbook/line_items/LineItemRepository.scala`, `src/main/scala/jamble/campbell/checkbook/line_items/LineItemsRoutes.scala` | `utils/shufflearr.go` |
+| **M04** | **Transactions domain** | Model `Transaction`, CSV import endpoint, repository, routes, tests. | M03 | ≤ 30 k | `src/main/scala/jamble/campbell/checkbook/transactions/Transaction.scala`, `src/main/scala/jamble/campbell/checkbook/transactions/TransactionRepository.scala`, `src/main/scala/jamble/campbell/checkbook/transactions/TransactionRoutes.scala` | `internal/db/migrate.go` |
+| **M05** | **Pay‑days domain** | Models `PayDay` & `PayDayDeposit`, repositories, routes, tests. | M04 | ≤ 25 k | `src/main/scala/jamble/campbell/checkbook/pay_days/PayDay.scala`, `src/main/scala/jamble/campbell/checkbook/pay_days/PayDayDepositRepository.scala`, `src/main/scala/jamble/campbell/checkbook/pay_days/PayDayRepository.scala`, `src/main/scala/jamble/campbell/checkbook/pay_days/PayDayRoutes.scala` | `utils/shufflearr.go` |
+| **M06** | **Reconcile import‑job domain** | Models `ImportJob`, repository, background worker stub, routes, tests. | M05 | ≤ 30 k | `src/main/scala/jamble/campbell/checkbook/reconcile/ImportJobRepository.scala`, `src/main/scala/jamble/campbell/checkbook/reconcile/ImportJobRoutes.scala`, `src/main/scala/jamble/campbell/checkbook/reconcile/JobProcessor.scala`, `src/main/scala/jamble/campbell/checkbook/reconcile/JobWorker.scala`, `src/main/scala/jamble/campbell/checkbook/reconcile/MatchingService.scala`, `src/main/scala/jamble/campbell/checkbook/reconcile/Models.scala`, `src/main/scala/jamble/campbell/checkbook/reconcile/NormalisationService.scala`, `src/main/scala/jamble/campbell/checkbook/reconcile/ReconcileRoutes.scala` | `internal/db/migrate.go` |
+| **M07** | **LLM (Hermes) client** | Go client mirroring `HermesClient.scala`, request/response structs, integration tests (mock server). | M06 | ≤ 25 k | `src/main/scala/jamble/campbell/checkbook/llm/HermesClient.scala`, `src/main/scala/jamble/campbell/checkbook/llm/Prompts.scala` | `internal/db/buildpostgresurl.go` |
+| **M08** | **Utility package** | `Currency` handling, DB helper (`DBUtils`), logger, error types, tests. | M01 | ≤ 15 k | `src/main/scala/jamble/campbell/checkbook/utils/Currency.scala`, `src/main/scala/jamble/campbell/checkbook/utils/DBUtils.scala`, `src/main/scala/jamble/campbell/checkbook/utils/Debugger.scala`, `src/main/scala/jamble/campbell/checkbook/utils/RoutesUtils.scala` | `utils/shufflearr.go` |
+| **M09** | **Session management & auth** | Session model, JWT middleware (if present in Scala), routes, tests. | M02 | ≤ 20 k | `src/main/scala/jamble/campbell/checkbook/sessions/Session.scala`, `src/main/scala/jamble/campbell/checkbook/sessions/SessionRoutes.scala` | `cmd/main.go` |
+| **M10** | **Full‑stack sanity check** | Wire all domains together, run end‑to‑end smoke test (create account → add line‑item → transaction → reconcile). | M01‑M09 | ≤ 30 k | *(All of the above)* | `cmd/main.go`, `internal/db/buildpostgresurl.go`, `internal/db/migrate.go` |
 
 > **Milestone size note:** The token estimates include source code, comments, and tests. The largest milestones (M04, M06, M10) stay well under the 90 k limit.
 
@@ -79,16 +79,16 @@ func (s *Service) RegisterRoutes(r chi.Router) { … }
 
 | Milestone | Status |
 |-----------|--------|
-| M01 | **NOT_STARTED** |
-| M02 | NOT_STARTED |
-| M03 | NOT_STARTED |
-| M04 | NOT_STARTED |
-| M05 | NOT_STARTED |
-| M06 | NOT_STARTED |
-| M07 | NOT_STARTED |
-| M08 | NOT_STARTED |
-| M09 | NOT_STARTED |
-| M10 | NOT_STARTED |
+| M01 | **COMPLETE** |
+| M02 | **COMPLETE** |
+| M03 | **COMPLETE** |
+| M04 | **COMPLETE** |
+| M05 | **COMPLETE** |
+| M06 | **COMPLETE** |
+| M07 | **COMPLETE** |
+| M08 | **COMPLETE** |
+| M09 | **COMPLETE** |
+| M10 | **COMPLETE** |
 
 ---
 
