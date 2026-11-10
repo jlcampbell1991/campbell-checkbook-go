@@ -5,13 +5,13 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"path/filepath"
 	"os"
+	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/joho/godotenv"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
+	"github.com/joho/godotenv"
 )
 
 //go:embed views/layouts/*.tmpl views/layouts/*.html
@@ -27,11 +27,11 @@ func main() {
 	// Load environment variables and run DB migrations
 	_ = godotenv.Load()
 	cfg := db.PostgresConfig{
-		User: os.Getenv("POSTGRES_USER"),
+		User:     os.Getenv("POSTGRES_USER"),
 		Password: os.Getenv("POSTGRES_PASSWORD"),
-		Host: os.Getenv("POSTGRES_HOST"),
-		DB: os.Getenv("POSTGRES_DB"),
-		Port: os.Getenv("POSTGRES_PORT"),
+		Host:     os.Getenv("POSTGRES_HOST"),
+		DB:       os.Getenv("POSTGRES_DB"),
+		Port:     os.Getenv("POSTGRES_PORT"),
 	}
 	dsn := db.BuildPostgresURL(cfg)
 	db.RunMigrations(dsn)
