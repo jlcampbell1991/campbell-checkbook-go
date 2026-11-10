@@ -1,0 +1,9 @@
+{{define "pay_day_deposit_form"}}
+{{/* Form for creating a Pay Day Deposit */}}
+<form action="{{.Action}}" method="{{.Method}}">
+    Amount: <input type="number" name="amount" step="any"><br/>
+    Pay Day ID: <input type="text" name="pay_day_id"><br/>
+    Line Item ID: <input type="text" name="line_item_id"><br/>
+    <input type="submit" value="Submit"/>
+</form>
+{{end}}

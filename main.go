@@ -11,15 +11,16 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/handlers"
 	"github.com/joho/godotenv"
 )
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html
+//go:embed views/layouts/*.tmpl views/layouts/*.html views/pay_day_deposits/*.tmpl
 var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/pay_day_deposits/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -44,6 +45,9 @@ func main() {
 	staticDir := http.Dir(filepath.Join("static"))
 	r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(staticDir)))
 	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(staticDir)))
+
+	// Register Pay Day Deposit routes
+	handlers.RegisterRoutes(r, tmpl)
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
