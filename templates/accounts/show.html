@@ -1,0 +1,11 @@
+{{ define "accountShow" }}
+<h2>Account: {{ .Account.Name }}</h2>
+<ul>
+{{ range .LineItems }}
+<li>{{ .Name }} - {{ .Balance }}</li>
+{{ else }}
+<li>No line items.</li>
+{{ end }}
+</ul>
+<a href="/accounts/{{ .Account.ID }}/delete">Delete Account</a>
+{{ end }}

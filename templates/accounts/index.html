@@ -1,0 +1,14 @@
+{{ define "accountsIndex" }}
+{{- if . }}
+    {{- range . }}
+        <div class="accounts">
+            <h2><a href="/accounts/{{ .ID }}">{{ .Name }}</a></h2>
+            <div class='tables'>
+                {{ template "accountItemsLayout" . }}
+            </div>
+        </div>
+    {{- end }}
+{{- else }}
+    <div class="placeholder">No accounts available.</div>
+{{- end }}
+{{ end }}

@@ -1,0 +1,6 @@
+{{ define "accountForm" }}
+<form action="{{ .Action }}" method="{{ .Method }}">
+  Name: <input type="text" name="name" value="{{ .Name }}"><br>
+  <input type="submit" value="Submit">
+</form>
+{{ end }}

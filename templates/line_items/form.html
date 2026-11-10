@@ -1,0 +1,8 @@
+{{ define "lineItemForm" }}
+<form action="{{ .Action }}" method="{{ .Method }}">
+    Name: <input type="text" name="name" value="{{ .Name }}"><br>
+    Balance: <input type="number" step="0.01" name="balance" value="{{ .Balance }}"><br>
+    <input type="hidden" name="accountId" value="{{ .AccountID }}">
+    <input type="submit" value="Submit">
+</form>
+{{ end }}
