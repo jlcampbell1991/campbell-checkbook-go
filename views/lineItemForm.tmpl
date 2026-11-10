@@ -1,0 +1,9 @@
+{{define "lineItemForm"}}
+<h3>New Line Item</h3>
+<form method="POST" action="/accounts/{{.AccountID}}/line-items">
+    <label>Name: <input type="text" name="name"></label><br>
+    <label>Balance: <input type="number" name="balance" step="any"></label><br>
+    <input type="hidden" name="accountId" value="{{.AccountID}}">
+    <button type="submit">Create</button>
+</form>
+{{end}}
