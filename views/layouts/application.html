@@ -1,0 +1,26 @@
+{{/*
+    Application layout template.
+    Expects a map with keys "Title" (string) and "Body" (HTML safe string).
+*/}}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Checkbook - {{ .Title }}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/application.css" />
+    </head>
+    <body>
+        <h1><a href="/">Checkbook</a></h1>
+<table id="menu">
+    <tr>
+        <td><a href="/transactions">Transactions</a></td>
+        <td><a href="/pay-days">Pay Days</a></td>
+        <td><a href="/budget">Monthly Budget</a></td>
+        <td><a href="/inactive-line-items">Inactive Line Items</a></td>
+        <td><a href="/accounts/new">New Account</a></td>
+    </tr>
+</table>
+        {{ .Body }}
+        <script src="/javascripts/application.js"></script>
+    </body>
+</html>
