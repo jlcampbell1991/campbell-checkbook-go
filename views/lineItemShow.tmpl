@@ -1,0 +1,5 @@
+{{define "lineItemShow"}}
+<h2>Line Item {{.LineItem.ID}}</h2>
+<p>Name: {{.LineItem.Name}}</p>
+<p>Balance: ${{printf "%.2f" .LineItem.Balance}}</p>
+{{end}}
