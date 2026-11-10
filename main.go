@@ -1,13 +1,13 @@
 package main
 
 import (
-	"os"
-	"github.com/joho/godotenv"
 	"bytes"
 	"github.com/go-chi/chi/v5"
+	"github.com/joho/godotenv"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 var tmpl *template.Template
