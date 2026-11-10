@@ -23,6 +23,7 @@ var (
 
 // RegisterTransactionRoutes registers the GET form and POST processing routes.
 func RegisterTransactionRoutes(r chi.Router, tmpl *template.Template) {
+    r.Get("/transactions", listTransactionsHandler(tmpl))
     r.Get("/transactions/new", newTransactionFormHandler(tmpl))
     r.Post("/transactions", createTransactionHandler())
 }
@@ -32,6 +33,20 @@ func newTransactionFormHandler(tmpl *template.Template) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         // No specific data required for now.
         if err := tmpl.ExecuteTemplate(w, "transactionForm", nil); err != nil {
+            http.Error(w, "template error: "+err.Error(), http.StatusInternalServerError)
+        }
+    }
+}
+
+// listTransactionsHandler renders the list of all transactions.
+func listTransactionsHandler(tmpl *template.Template) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        data := struct {
+            Transactions []Transaction
+        }{
+            Transactions: transactions,
+        }
+        if err := tmpl.ExecuteTemplate(w, "transactionsIndex", data); err != nil {
             http.Error(w, "template error: "+err.Error(), http.StatusInternalServerError)
         }
     }
