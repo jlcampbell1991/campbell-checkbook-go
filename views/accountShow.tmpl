@@ -1,0 +1,10 @@
+{{define "accountShow"}}
+<h2>Account {{.Account.ID}}</h2>
+<p>Name: {{.Account.Name}}</p>
+{{range .LineItems}}
+<div>{{.Name}}: ${{printf "%.2f" .Balance}}</div>
+{{end}}
+<form method="POST" action="/accounts/{{.Account.ID}}/delete">
+    <button type="submit">Delete</button>
+</form>
+{{end}}
