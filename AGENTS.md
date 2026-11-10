@@ -10,6 +10,8 @@ This repository is a **Go port** of the Scala application located at:
 ```
 The original Scala project implements a personal finance/check‑book system. The Go version aims to provide the same core functionality while leveraging Go's simplicity, static binaries, and ecosystem.
 
+**Porting Context:** This Go repository mirrors the functionality of the Scala codebase and is kept in sync with it during migration.
+
 ## Purpose of this AGENTS.md
 
 - Document the conventions and tooling expectations for AI agents working on this codebase.
