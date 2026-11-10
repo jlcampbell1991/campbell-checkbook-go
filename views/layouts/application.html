@@ -1,19 +1,13 @@
-{{/*
-    Application layout template.
-    Expects a data map with keys:
-    - Title: string, page title (without "Checkbook - " prefix)
-    - Body:  template.HTML or string, page body content
-*/}}
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Checkbook - {{ .Title }}</title>
+        <title>Checkbook - {{.Title}}</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="/stylesheets/application.css" />
     </head>
     <body>
-        {{ template "menu" . }}
-        {{ .Body }}
+        {{template "menu" .}}
+        {{block "content" .}} {{end}}
         <script src="/javascripts/application.js"></script>
     </body>
 </html>
