@@ -1,0 +1,16 @@
+{{define "accountShow"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account Show</title>
+</head>
+<body>
+    <h1>{{.Account.Name}}</h1>
+    <p>ID: {{.Account.ID}}</p>
+    {{range .LineItems}}
+        <div>{{.Name}}: {{.Balance}}</div>
+    {{end}}
+    <a href="/accounts/{{.Account.ID}}/delete">Delete</a>
+</body>
+</html>
+{{end}}
