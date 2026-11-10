@@ -1,0 +1,29 @@
+{{define "pay_day_form"}}
+{{/* Form for creating or editing a Pay Day */}}
+<form action="{{.Action}}" method="{{.Method}}">
+    <div id='pay-day-form'>
+        Name: <input type="text" name="name" value="{{if .MaybePd}}{{.MaybePd.Name}}{{end}}"><br/>
+        Total: <input type="number" name="total" value="{{if .MaybePd}}{{.MaybePd.Total}}{{end}}" step="any"><br/>
+        Account: <select name="account">
+            {{range .Accounts}}
+                {{if $.MaybePd}}
+                    {{if eq $.MaybePd.AccountId .Id}}
+                        <option value="{{.Id}}" selected>{{.Name}}</option>
+                    {{else}}
+                        <option value="{{.Id}}">{{.Name}}</option>
+                    {{end}}
+                {{else}}
+                    <option value="{{.Id}}">{{.Name}}</option>
+                {{end}}
+            {{end}}
+        </select><br/>
+        {{range .LineItems}}
+            <div class='input-rows'>
+                {{.Name}}: <input type="number" name="deposit_amount" value="{{index $.Deposits .Id}}" step="any"><br/>
+            </div>
+            <input type="hidden" name="deposit_id" value="{{.Id}}">
+        {{end}}
+    </div>
+    <input type="submit" value="Submit"/>
+</form>
+{{end}}
