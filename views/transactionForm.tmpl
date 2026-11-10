@@ -1,0 +1,9 @@
+{{define "transactionForm"}}
+<h3>New Transaction</h3>
+<form method="POST" action="/transactions">
+    <label>Description: <input type="text" name="description"></label><br>
+    <label>Amount: <input type="number" name="amount" step="any"></label><br>
+    <label>Account ID: <input type="text" name="accountId"></label><br>
+    <button type="submit">Create</button>
+</form>
+{{end}}

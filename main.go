@@ -14,6 +14,7 @@ import (
     "github.com/go-chi/chi/v5/middleware"
     "github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
     "github.com/jlcampbell1991/campbell-checkbook-go/internal/domain"
+    "github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
     "github.com/joho/godotenv"
 )
 
@@ -91,7 +92,10 @@ func main() {
 		}
 		delete(accounts, id)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+
 	})
+    // Transaction routes
+    handlers.RegisterTransactionRoutes(r, tmpl)
 
 
     // Home page handler
