@@ -6,9 +6,12 @@ import (
     "log"
     "net/http"
     "path/filepath"
+    "os"
 
     "github.com/go-chi/chi/v5"
     "github.com/go-chi/chi/v5/middleware"
+    "github.com/joho/godotenv"
+    "github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 )
 
 //go:embed views/layouts/*.tmpl views/layouts/*.html
@@ -20,6 +23,18 @@ func main() {
     if err != nil {
         log.Fatalf("failed to parse templates: %v", err)
     }
+
+    // Load environment variables and run DB migrations
+    _ = godotenv.Load()
+    cfg := db.PostgresConfig{
+        User:     os.Getenv("POSTGRES_USER"),
+        Password: os.Getenv("POSTGRES_PASSWORD"),
+        Host:     os.Getenv("POSTGRES_HOST"),
+        DB:       os.Getenv("POSTGRES_DB"),
+        Port:     os.Getenv("POSTGRES_PORT"),
+    }
+    dsn := db.BuildPostgresURL(cfg)
+    db.RunMigrations(dsn)
 
     r := chi.NewRouter()
     r.Use(middleware.Logger)
