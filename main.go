@@ -12,6 +12,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 	"github.com/joho/godotenv"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 //go:embed views/layouts/*.tmpl
