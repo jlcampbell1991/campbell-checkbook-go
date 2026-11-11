@@ -41,9 +41,7 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	// Serve static assets if present (placeholder paths)
-	staticDir := http.Dir(filepath.Join("static"))
-	r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(staticDir)))
-	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(staticDir)))
+	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
