@@ -41,7 +41,7 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	// Initialize in‑memory account repository
+	// Initialize in-memory account repository
 	accountRepo := db.NewInMemoryAccountRepo()
 	// Register account routes
 	handlers.RegisterAccountsRoutes(r, tmpl, accountRepo)
