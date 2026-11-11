@@ -21,6 +21,10 @@ func main() {
 	// Register account routes
 	handlers.RegisterAccounts(r, repo)
 
+	// Register line‑item routes (using its own in‑memory repository)
+	lineItemRepo := db.NewInMemoryLineItemRepo()
+	handlers.RegisterLineItems(r, lineItemRepo)
+
 	// Serve static files (if any)
 	// r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Line Item {{.LineItem.Name}}</title>
+    <link rel="stylesheet" href="/static/css/common.css">
+</head>
+<body>
+    <h1>Line Item: {{.LineItem.Name}}</h1>
+    <p>ID: {{.LineItem.ID}}</p>
+    <p>Balance: {{.LineItem.Balance}}</p>
+    {{if .LineItem.Budget}}
+        <p>Budget: {{.LineItem.Budget}}</p>
+    {{end}}
+    <h2>Payday Deposits</h2>
+    {{if .Deps}}
+        <ul>
+        {{range .Deps}}
+            <li>{{.ID}} – {{.Amount}}</li>
+        {{end}}
+        </ul>
+    {{else}}
+        <p>No deposits.</p>
+    {{end}}
+    <h2>Transactions (page {{.NextURL}})</h2>
+    {{if .Transactions}}
+        <ul>
+        {{range .Transactions}}
+            <li>{{.ID}} – {{.Description}} – {{.Amount}}</li>
+        {{end}}
+        </ul>
+    {{else}}
+        <p>No transactions.</p>
+    {{end}}
+    <a href="{{.NextURL}}">Next page</a>
+</body>
+</html>
