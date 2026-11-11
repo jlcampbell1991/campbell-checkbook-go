@@ -1,0 +1,7 @@
+{{define "form.tmpl"}}
+<h2>{{.Title}}</h2>
+<form action="/accounts" method="post">
+    Name: <input type="text" name="name"><br>
+    <input type="submit" value="Create Account">
+</form>
+{{end}}

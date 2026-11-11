@@ -2,41 +2,36 @@ package handlers
 
 import (
     "html/template"
-    "log"
     "net/http"
+
+    "github.com/go-chi/chi/v5"
+    "github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 )
 
-// getNewAccountForm renders a simple HTML form for creating a new account.
-func GetNewAccountForm(tmpl *template.Template) http.HandlerFunc {
-    return func(w http.ResponseWriter, r *http.Request) {
-        // Simple form HTML; could be a separate template in the future.
-        formHTML := `<form action="/accounts" method="post">
-    Name: <input type="text" name="name"><br>
-    <input type="submit" value="Submit">
-</form>`
+// RegisterAccountsRoutes registers the account related routes.
+func RegisterAccountsRoutes(r chi.Router, tmpl *template.Template, repo *db.InMemoryAccountRepo) {
+    // Show form for new account
+    r.Get("/accounts/new", func(w http.ResponseWriter, r *http.Request) {
         data := struct {
             Title string
-            Body  template.HTML
-        }{
-            Title: "New Account",
-            Body:  template.HTML(formHTML),
-        }
-        if err := tmpl.ExecuteTemplate(w, "application.tmpl", data); err != nil {
-            log.Printf("template execution error: %v", err)
+        }{Title: "New Account"}
+        if err := tmpl.ExecuteTemplate(w, "form.tmpl", data); err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
         }
-    }
-}
+    })
 
-// postAccount processes the submitted account form.
-func PostAccount(w http.ResponseWriter, r *http.Request) {
-    if err := r.ParseForm(); err != nil {
-        http.Error(w, "invalid form", http.StatusBadRequest)
-        return
-    }
-    name := r.FormValue("name")
-    // In a full implementation, we would persist the account.
-    log.Printf("Created account with name: %s", name)
-    // Redirect to home page after creation.
-    http.Redirect(w, r, "/", http.StatusSeeOther)
+    // Handle form submission
+    r.Post("/accounts", func(w http.ResponseWriter, r *http.Request) {
+        if err := r.ParseForm(); err != nil {
+            http.Error(w, "invalid form", http.StatusBadRequest)
+            return
+        }
+        name := r.PostFormValue("name")
+        if name == "" {
+            http.Error(w, "name required", http.StatusBadRequest)
+            return
+        }
+        repo.Insert(name)
+        http.Redirect(w, r, "/", http.StatusSeeOther)
+    })
 }
