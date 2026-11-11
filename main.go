@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"embed"
 	"html/template"
 	"log"
@@ -12,7 +11,6 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 	"github.com/joho/godotenv"
-	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 //go:embed views/layouts/*.tmpl
@@ -35,10 +33,7 @@ func main() {
 		Port:     os.Getenv("POSTGRES_PORT"),
 	}
 	dsn := db.BuildPostgresURL(cfg)
-	_, err = sql.Open("pgx", dsn)
-	if err != nil {
-		log.Fatalf("unable to connect to db: %+v", err)
-	}
+	db.RunMigrations(dsn)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
