@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account {{.Name}}</title>
+</head>
+<body>
+<h1>Account: {{.Name}}</h1>
+<p>ID: {{.ID}}</p>
+<button onclick="if(confirm('Delete this account?')){fetch('/accounts/{{.ID}}',{method:'DELETE'}).then(()=>{window.location.href='/accounts';});}">Delete</button>
+<a href="/accounts">Back to list</a>
+</body>
+</html>

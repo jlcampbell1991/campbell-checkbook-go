@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Accounts</title>
+</head>
+<body>
+<h1>Accounts</h1>
+<ul>
+{{range .}}
+    <li><a href="/accounts/{{.ID}}">{{.Name}}</a></li>
+{{else}}
+    <li>No accounts</li>
+{{end}}
+</ul>
+<form method="POST" action="/accounts">
+    <input type="text" name="name" placeholder="Account name" required />
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>
