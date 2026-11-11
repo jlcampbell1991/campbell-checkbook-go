@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"embed"
 	"html/template"
 	"log"
@@ -33,7 +34,10 @@ func main() {
 		Port:     os.Getenv("POSTGRES_PORT"),
 	}
 	dsn := db.BuildPostgresURL(cfg)
-	db.RunMigrations(dsn)
+	_, err = sql.Open("pgx", dsn)
+	if err != nil {
+		log.Fatalf("unable to connect to db: %+v", err)
+	}
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
