@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html
+//go:embed views/layouts/*.tmpl
 var templateFS embed.FS
 
 func main() {
