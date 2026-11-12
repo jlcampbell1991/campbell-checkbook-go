@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+</head>
+<body>
+    <h1>{{.Title}}</h1>
+    <form action="{{.Action}}" method="{{.Method}}">
+        Name: <input type="text" name="name" value="{{if .Account}}{{.Account.Name}}{{end}}"><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
