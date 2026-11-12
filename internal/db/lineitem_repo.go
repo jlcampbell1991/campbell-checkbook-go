@@ -9,6 +9,8 @@ import (
 
 // InMemoryLineItemRepo provides a simple thread‑safe repository for line items.
 type InMemoryLineItemRepo struct {
+    // existing fields
+
 	mu     sync.RWMutex
 	items  map[string]*domain.LineItem
 	nextID int64
@@ -56,6 +58,10 @@ func (r *InMemoryLineItemRepo) GetTransactions(id string, page int) ([]*domain.T
 }
 
 func (r *InMemoryLineItemRepo) GetAllByLineItem(id string) ([]*domain.PayDayDeposit, error) {
+    // existing method unchanged
+
+    // existing method unchanged
+
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 	if deps, ok := r.deposits[id]; ok {
@@ -63,3 +69,15 @@ func (r *InMemoryLineItemRepo) GetAllByLineItem(id string) ([]*domain.PayDayDepo
 	}
 	return []*domain.PayDayDeposit{}, nil
 }
+
+// GetAll returns all line items.
+func (r *InMemoryLineItemRepo) GetAll() []*domain.LineItem {
+    r.mu.RLock()
+    defer r.mu.RUnlock()
+    result := make([]*domain.LineItem, 0, len(r.items))
+    for _, v := range r.items {
+        result = append(result, v)
+    }
+    return result
+}
+

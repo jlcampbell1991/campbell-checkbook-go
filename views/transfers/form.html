@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Transfer</title>
+</head>
+<body>
+<h1>New Transfer</h1>
+<form action="/transfers" method="post">
+    From:
+    <select name="from">
+        {{range .Items}}
+        {{if eq .ID $.SelectedID}}
+        <option value="{{.ID}}" selected>{{.Name}} ({{printf "%.2f" .Balance}})</option>
+        {{else}}
+        <option value="{{.ID}}">{{.Name}} ({{printf "%.2f" .Balance}})</option>
+        {{end}}
+        {{end}}
+    </select><br/>
+    To:
+    <select name="to">
+        {{range .Items}}
+        <option value="{{.ID}}">{{.Name}} ({{printf "%.2f" .Balance}})</option>
+        {{end}}
+    </select><br/>
+    Amount: <input type="number" name="amount" step="any"/><br/>
+    Memo: <input type="text" name="memo"/><br/>
+    <input type="submit" value="Create Transfer"/>
+</form>
+</body>
+</html>

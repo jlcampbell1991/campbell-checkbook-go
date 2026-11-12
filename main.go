@@ -25,6 +25,7 @@ func main() {
 	handlers.RegisterTransactions(r)
 	lineItemRepo := db.NewInMemoryLineItemRepo()
 	handlers.RegisterLineItems(r, lineItemRepo)
+	handlers.RegisterTransfers(r, lineItemRepo)
 
 	// Serve static files (if any)
 	// r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
