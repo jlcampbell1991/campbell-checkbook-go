@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Transaction</title>
+</head>
+<body>
+<h1>New Transaction</h1>
+<form action="/transactions" method="post">
+    Line Item:
+    <select name="line-item-id">
+        {{range .Items}}
+        <option value="{{.ID}}">{{.Name}} ({{printf "%.2f" .Balance}})</option>
+        {{end}}
+    </select><br/>
+    Description: <input type="text" name="description"/><br/>
+    Amount: <input type="number" name="amount" step="any"/><br/>
+    <input type="submit" value="Create Transaction"/>
+</form>
+</body>
+</html>

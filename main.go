@@ -22,8 +22,8 @@ func main() {
 	handlers.RegisterAccounts(r, repo)
 
 	// Register line‑item routes (using its own in‑memory repository)
-	handlers.RegisterTransactions(r)
 	lineItemRepo := db.NewInMemoryLineItemRepo()
+	handlers.RegisterTransactions(r, lineItemRepo)
 	handlers.RegisterLineItems(r, lineItemRepo)
 	handlers.RegisterTransfers(r, lineItemRepo)
 
