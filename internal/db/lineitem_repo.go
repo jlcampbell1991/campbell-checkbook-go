@@ -10,7 +10,7 @@ import (
 
 // InMemoryLineItemRepo provides a simple thread‑safe repository for line items.
 type InMemoryLineItemRepo struct {
-    // existing fields
+	// existing fields
 
 	mu     sync.RWMutex
 	items  map[string]*domain.LineItem
@@ -59,9 +59,9 @@ func (r *InMemoryLineItemRepo) GetTransactions(id string, page int) ([]*domain.T
 }
 
 func (r *InMemoryLineItemRepo) GetAllByLineItem(id string) ([]*domain.PayDayDeposit, error) {
-    // existing method unchanged
+	// existing method unchanged
 
-    // existing method unchanged
+	// existing method unchanged
 
 	r.mu.RLock()
 	defer r.mu.RUnlock()
@@ -73,26 +73,25 @@ func (r *InMemoryLineItemRepo) GetAllByLineItem(id string) ([]*domain.PayDayDepo
 
 // GetAll returns all line items.
 func (r *InMemoryLineItemRepo) GetAll() []*domain.LineItem {
-    r.mu.RLock()
-    defer r.mu.RUnlock()
-    result := make([]*domain.LineItem, 0, len(r.items))
-    for _, v := range r.items {
-        result = append(result, v)
-    }
-    return result
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	result := make([]*domain.LineItem, 0, len(r.items))
+	for _, v := range r.items {
+		result = append(result, v)
+	}
+	return result
 }
 
 // AddTransaction adds a transaction to the specified line item.
 func (r *InMemoryLineItemRepo) AddTransaction(lineItemID string, txn *domain.Transaction) error {
-    r.mu.Lock()
-    defer r.mu.Unlock()
-    // Ensure the line item exists.
-    if _, ok := r.items[lineItemID]; !ok {
-        return fmt.Errorf("line item %s not found", lineItemID)
-    }
-    // Simple ID generation.
-    txn.ID = strconv.Itoa(len(r.txns[lineItemID]) + 1)
-    r.txns[lineItemID] = append(r.txns[lineItemID], txn)
-    return nil
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	// Ensure the line item exists.
+	if _, ok := r.items[lineItemID]; !ok {
+		return fmt.Errorf("line item %s not found", lineItemID)
+	}
+	// Simple ID generation.
+	txn.ID = strconv.Itoa(len(r.txns[lineItemID]) + 1)
+	r.txns[lineItemID] = append(r.txns[lineItemID], txn)
+	return nil
 }
-

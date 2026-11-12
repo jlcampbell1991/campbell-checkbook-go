@@ -14,6 +14,7 @@ import (
 // RegisterAccounts registers account routes on the provided router.
 func RegisterAccounts(r chi.Router, repo *db.InMemoryAccountRepo) {
 	r.Get("/accounts", listAccounts(repo))
+	r.Get("/accounts/add", addAccountForm(repo))
 	r.Post("/accounts", createAccount(repo))
 	r.Get("/accounts/{id}", showAccount(repo))
 	r.Delete("/accounts/{id}", deleteAccount(repo))
@@ -72,5 +73,17 @@ func deleteAccount(repo *db.InMemoryAccountRepo) http.HandlerFunc {
 			return
 		}
 		http.Redirect(w, r, "/accounts", http.StatusSeeOther)
+	}
+}
+
+func addAccountForm(repo *db.InMemoryAccountRepo) http.HandlerFunc {
+	tmpl := template.Must(template.ParseFiles("views/accounts/form.html"))
+	return func(w http.ResponseWriter, r *http.Request) {
+		data := map[string]string{
+			"Title":  "New Account",
+			"Action": "/accounts",
+			"Method": "post",
+		}
+		tmpl.Execute(w, data)
 	}
 }
