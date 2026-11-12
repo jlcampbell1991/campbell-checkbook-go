@@ -68,3 +68,32 @@ These files illustrate the coding style, folder layout, and tooling (GitHub Acti
 | JSON field naming differences | Client breakage | Use explicit `json:"field_name"` tags; add contract tests comparing sample Scala responses.
 | Missing third‑party Scala libs (e.g., LLM) | Feature gaps | Defer those features to a later optional milestone; document as out‑of‑scope.
 | Milestone creep (trying to do too much) | Hard to verify, longer feedback | Enforce “one milestone per session”; split oversized work.
+
+## Project Overview
+This repository implements the **Campbell Checkbook** backend in Go, mirroring the functionality of the original Scala version. It provides a REST API for managing accounts, transactions, transfers, pay‑days, line items, and reconciliation, persisting data in PostgreSQL and rendering server‑side HTML templates.
+
+## Development Commands
+- `make run` – Run the application locally (`go run main.go`).
+- `go test ./...` – Execute all unit and integration tests.
+- `go vet ./...` – Run static analysis.
+- `gofmt -s -w .` – Format all Go source files.
+- `make migrate` (if defined) – Apply database migrations.
+
+## Coding Conventions
+- Follow the project’s existing folder layout (`internal/db`, `internal/domain`, `cmd/handlers`, `views`).
+- Use `json` struct tags matching the API contract.
+- Errors are logged and returned as HTTP 4xx/5xx with JSON payloads.
+- All new code must pass `go vet` and be formatted with `gofmt`.
+- Write unit tests for new functions and handlers.
+
+## Testing Strategy
+- Unit tests for domain logic in `internal/domain/*_test.go`.
+- Integration tests for database interactions in `internal/db/*_test.go`.
+- HTTP handler tests using `net/http/httptest`.
+- CI runs `go test ./...`, `go vet`, and `gofmt -l` to enforce quality.
+
+## Deployment
+- Systemd service defined in `README.md` and `start.sh`.
+- Ensure environment variables are loaded from `.env` (via `github.com/joho/godotenv`).
+- Migrations are executed on startup via `internal/db/migrate.go`.
+
