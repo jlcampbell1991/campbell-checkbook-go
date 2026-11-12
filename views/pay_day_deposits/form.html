@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+</head>
+<body>
+<h1>{{.Title}}</h1>
+<form action="{{.Action}}" method="{{.Method}}">
+    Amount: <input type="number" name="amount" value="{{if .MaybeDep}}{{.MaybeDep.Amount}}{{end}}" step="any"><br/>
+    Pay Day: <select name="payDay">
+        {{range .PayDays}}
+        {{if or (and $.MaybeDep (eq $.MaybeDep.PayDayID .ID)) (eq $.MaybePayDayID .ID)}}
+            <option value="{{.ID}}" selected>{{.Name}}</option>
+        {{else}}
+            <option value="{{.ID}}">{{.Name}}</option>
+        {{end}}
+        {{end}}
+    </select><br/>
+    Line Item: <select name="lineItem">
+        {{range .Items}}
+        {{if or (and $.MaybeDep (eq $.MaybeDep.LineItemID .ID)) (eq $.MaybeItemId .ID)}}
+            <option value="{{.ID}}" selected>{{.Name}}</option>
+        {{else}}
+            <option value="{{.ID}}">{{.Name}}</option>
+        {{end}}
+        {{end}}
+    </select><br/>
+    <input type="submit" value="Save Deposit" />
+</form>
+</body>
+</html>

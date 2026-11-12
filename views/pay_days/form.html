@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+</head>
+<body>
+<h1>{{.Title}}</h1>
+<form action="{{.Action}}" method="{{.Method}}">
+    Name: <input type="text" name="name" value="{{.PayDay.Name}}"><br/>
+    Total: <input type="number" name="total" step="any" value="{{.PayDay.Total}}"><br/>
+    Account: <select name="account">
+        {{range .Accounts}}
+        <option value="{{.ID}}" {{if eq .ID $.PayDay.AccountID}}selected{{end}}>{{.Name}}</option>
+        {{end}}
+    </select><br/>
+    {{range .LineItems}}
+    <div class="input-rows">
+        {{.Name}}: <input type="number" name="deposit_amount" step="any" value="{{index $.Deposits .ID}}"><br/>
+    </div>
+    <input type="hidden" name="deposit_id" value="{{.ID}}" />
+    {{end}}
+    <input type="submit" value="Save Pay Day" />
+</form>
+</body>
+</html>

@@ -23,6 +23,9 @@ func main() {
 
 	// Register line‑item routes (using its own in‑memory repository)
 	lineItemRepo := db.NewInMemoryLineItemRepo()
+	// Register pay‑day routes
+	handlers.RegisterPayDays(r, lineItemRepo, repo)
+	handlers.RegisterPayDayDeposits(r, lineItemRepo)
 	handlers.RegisterTransactions(r, lineItemRepo)
 	handlers.RegisterLineItems(r, lineItemRepo)
 	handlers.RegisterTransfers(r, lineItemRepo)
