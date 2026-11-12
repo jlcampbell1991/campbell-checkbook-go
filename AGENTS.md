@@ -50,3 +50,10 @@ go vet ./...
 - Currently uses in‑memory repositories; replace with PostgreSQL implementation when needed.
 - No authentication or authorization layers.
 - No external static asset handling beyond the placeholder comment.
+
+## Definition of Done
+- All new or modified code is formatted with `gofmt -s -w .`.
+- `go vet ./...` runs without warnings.
+- Existing tests (if any) pass with `go test ./...`.
+- New functionality is covered by appropriate unit or integration tests.
+- Changes are committed to the current feature branch and a PR is opened targeting `main`.
