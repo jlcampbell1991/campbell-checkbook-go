@@ -16,6 +16,8 @@ The **campbell-checkbook** repository contains a Go implementation of a personal
   - **Transactions list** (`GET /transactions`)
   - **Transaction creation form** (`GET /transactions/new`)
   - **Transaction creation submission** (`POST /transactions`)
+   - **Transfer creation form** (`GET /transfers/new`)
+   - **Transfer creation submission** (`POST /transfers`)
 - **Templates**: Go `html/template` files located in `views/layouts/`. The base layout `application.html` includes the `menu.html` partial and a `{{block "content" .}}` for page‑specific content. Account creation uses `views/accounts/add.html` (template name `add`).
 - **Static assets**: Served from `static/stylesheets/` and `static/javascripts/` via `http.FileServer` with URL prefixes `/stylesheets/` and `/javascripts/`.
 - **Configuration**: Environment variables (`PORT`, DB credentials, etc.) loaded from a `.env` file. Values are accessed via `os.Getenv`.
