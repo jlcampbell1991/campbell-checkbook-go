@@ -6,6 +6,7 @@ The **campbell-checkbook** repository contains a Go implementation of a personal
 ## Architecture
 - **Entry point**: `main.go` – loads environment variables (`.env` via `github.com/joho/godotenv`), configures a **chi** router, registers middleware (`Logger`, `Recoverer`), serves static files, parses templates, and starts the HTTP server.
 - **Routing**: chi router (`github.com/go-chi/chi/v5`). Future route groups will be added under `cmd/handlers/`.
+- **Implemented routes**: Accounts show page (`GET /accounts/{id}`) and delete route (`POST /accounts/{id}/delete`).
 - **Templates**: Go `html/template` files located in `views/layouts/`. The base layout `application.html` includes the `menu.html` partial and a `{{block "content" .}}` for page‑specific content.
 - **Static assets**: Served from `static/stylesheets/` and `static/javascripts/` via `http.FileServer` with URL prefixes `/stylesheets/` and `/javascripts/`.
 - **Configuration**: Environment variables (`PORT`, DB credentials, etc.) loaded from a `.env` file. Values are accessed via `os.Getenv`.
