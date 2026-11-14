@@ -12,7 +12,7 @@ The **campbell-checkbook** repository contains a Go implementation of a personal
 - **Production deployment**: Systemd service defined in `README.md` (`campbell-checkbook-go.service`) that runs `start.sh` which invokes the compiled binary.
 - **Future layers**:
   - **Domain models** under `internal/domain/` (e.g., `account.go`, `transaction.go`).
-  - **Database access** under `internal/db/` using `pgx` or `database/sql`.
+  - **Database access** under `internal/db/` using `pgx` or `database/sql`. This package contains migration helpers (`RunMigrations`) and URL builder utilities.
   - **Business services** under `internal/service/`.
 
 ## Development Commands
@@ -24,6 +24,8 @@ The **campbell-checkbook** repository contains a Go implementation of a personal
 | `go vet ./...` | Static analysis for potential issues. |
 | `gofmt -s -w .` | Formats the entire codebase (required before commit). |
 | `golangci-lint run` | Runs lint checks if the tool is installed (optional). |
+| `make db-migrate` | Runs database migrations using the `internal/db` package. Equivalent to `go run ./internal/db/migrate.go` with the `DATABASE_URL` (or individual DB env vars) supplied. |
+| `make db-status` | Prints the current migration version using the same migration tooling. |
 | `sudo systemctl restart campbell-checkbook-go` | Restarts the production service (see `README.md`). |
 
 ## Coding Conventions
@@ -46,6 +48,10 @@ The **campbell-checkbook** repository contains a Go implementation of a personal
 - **Go conventions**: Follow the global conventions defined in `/Users/jamble-campbell/.config/opencode/go-conventions.md` (formatting, vetting, testing).
 - **Systemd**: Production deployment relies on the service described in `README.md`. Ensure the binary is built and placed where `start.sh` expects it.
 - **Static asset paths**: The router expects `/stylesheets/*` and `/javascripts/*`. Do not rename these directories without updating the router configuration.
+- **Database constraints**:
+  - Migrations must be run before the application starts in any environment that accesses the DB.
+  - The `DATABASE_URL` (or the component parts `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_NAME`, `DB_PORT`) must be set in the `.env` file or the environment.
+  - The `internal/db` package assumes PostgreSQL; other databases are not supported without code changes.
 - **Future work**: The current repository is a scaffold. Adding domain models, DB repositories, and API routes should follow the mapping outlined in `plans/port-from-scala.md`.
 
 ---
