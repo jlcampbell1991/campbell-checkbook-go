@@ -1,0 +1,24 @@
+{{define "transfer_form"}}
+{{block "content" .}}
+<h2>New Transfer</h2>
+<form action="/transfers" method="post">
+  From: <select name="from">
+    {{range .LineItems}}
+      {{if eq $.LineItemID .ID}}
+        <option value="{{.ID}}" selected>{{.Name}} ({{printf "%.2f" .Balance}})</option>
+      {{else}}
+        <option value="{{.ID}}">{{.Name}} ({{printf "%.2f" .Balance}})</option>
+      {{end}}
+    {{end}}
+  </select><br>
+  To: <select name="to">
+    {{range .LineItems}}
+      <option value="{{.ID}}">{{.Name}} ({{printf "%.2f" .Balance}})</option>
+    {{end}}
+  </select><br>
+  Amount: <input type="number" name="amount" step="any"><br>
+  Memo: <input type="text" name="memo"><br>
+  <input type="submit" value="Create Transfer">
+</form>
+{{end}}
+{{end}}

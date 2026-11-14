@@ -42,6 +42,7 @@ func main() {
 		filepath.Join("views", "accounts", "add.html"),
 		filepath.Join("views", "line_items", "add.html"),
 		filepath.Join("views", "transactions", "index.html"),
+		filepath.Join("views", "transfers", "form.html"),
 	))
 
 	// Simple home handler demonstrating layout usage
@@ -107,6 +108,44 @@ func main() {
 		if err := tmpl.ExecuteTemplate(w, "transactions_index", data); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+	})
+
+	// Transfers: show form (GET)
+	r.Get("/transfers/new", func(w http.ResponseWriter, r *http.Request) {
+		lineItemID := r.URL.Query().Get("line-item-id")
+		// Mock line items data; in real app fetch from DB.
+		type Item struct {
+			Name    string
+			ID      string
+			Balance float64
+		}
+		lineItems := []Item{{Name: "Sample Item", ID: "1", Balance: 100.0}}
+		data := struct {
+			Title      string
+			LineItemID string
+			LineItems  []Item
+		}{
+			Title:      "New Transfer",
+			LineItemID: lineItemID,
+			LineItems:  lineItems,
+		}
+		if err := tmpl.ExecuteTemplate(w, "transfer_form", data); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
+
+	// Transfers: handle submission (POST)
+	r.Post("/transfers", func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, "Invalid form", http.StatusBadRequest)
+			return
+		}
+		_ = r.FormValue("memo")
+		_ = r.FormValue("amount")
+		_ = r.FormValue("from")
+		_ = r.FormValue("to")
+		// TODO: persist transfer
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	})
 
 	// Start server
