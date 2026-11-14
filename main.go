@@ -1,7 +1,6 @@
 package main
 
 import (
-<<<<<<< HEAD
     "log"
     "net/http"
     "os"
@@ -33,9 +32,8 @@ func main() {
     r.Use(middleware.Recoverer)
 
     // Serve static assets
-    // staticDir := http.Dir("static") // retained for reference
-    r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(http.Dir(filepath.Join("static", "stylesheets")))) )
-    r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(http.Dir(filepath.Join("static", "javascripts")))) )
+    r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(http.Dir("static/stylesheets"))))
+    r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(http.Dir("static/javascripts"))))
 
     // Parse templates
     tmpl := template.Must(template.ParseFiles(
@@ -57,43 +55,4 @@ func main() {
     if err := http.ListenAndServe(addr, r); err != nil {
         log.Fatalf("Server failed: %v", err)
     }
-=======
-	"github.com/joho/godotenv"
-	"html/template"
-	"log"
-	"net/http"
-	"os"
-	"strconv"
-)
-
-func main() {
-	// Load environment variables from .env if present
-	_ = godotenv.Load()
-	portStr := os.Getenv("PORT")
-	if portStr == "" {
-		portStr = "8080"
-	}
-	// Validate port number
-	if _, err := strconv.Atoi(portStr); err != nil {
-		log.Fatalf("Invalid PORT: %v", err)
-	}
-
-	// Serve static assets
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	// Render menu on root path
-	tmpl := template.Must(template.ParseFiles("templates/menu.html"))
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if err := tmpl.Execute(w, nil); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	})
-
-	log.Printf("Server starting on :%s", portStr)
-	if err := http.ListenAndServe(":"+portStr, nil); err != nil {
-		log.Fatalf("Server failed: %v", err)
-	}
->>>>>>> origin/task/add-nav-and-menu-7
 }
-
