@@ -41,6 +41,7 @@ func main() {
 		filepath.Join("views", "layouts", "menu.html"),
 		filepath.Join("views", "accounts", "add.html"),
 		filepath.Join("views", "line_items", "add.html"),
+		filepath.Join("views", "transactions", "index.html"),
 	))
 
 	// Simple home handler demonstrating layout usage
@@ -98,6 +99,14 @@ func main() {
 		// TODO: persist line item
 		_ = id // suppress unused warning
 		http.Redirect(w, r, "/accounts/"+id, http.StatusSeeOther)
+	})
+
+	// Transactions index page
+	r.Get("/transactions", func(w http.ResponseWriter, r *http.Request) {
+		data := struct{ Title string }{Title: "Transactions"}
+		if err := tmpl.ExecuteTemplate(w, "transactions_index", data); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	})
 
 	// Start server
