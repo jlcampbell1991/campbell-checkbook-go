@@ -40,6 +40,7 @@ func main() {
 		filepath.Join("views", "layouts", "application.html"),
 		filepath.Join("views", "layouts", "menu.html"),
 		filepath.Join("views", "accounts", "add.html"),
+		filepath.Join("views", "line_items", "add.html"),
 	))
 
 	// Simple home handler demonstrating layout usage
@@ -69,6 +70,34 @@ func main() {
 		// For now, just redirect to home.
 		_ = name // suppress unused warning
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+	})
+
+	// Line items: show form to add new line item (GET)
+	r.Get("/accounts/{id}/line-items/new", func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		data := struct {
+			Title     string
+			AccountID string
+		}{Title: "New Line Item", AccountID: id}
+		if err := tmpl.ExecuteTemplate(w, "lineitem_add", data); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
+
+	// Handle line item creation (POST)
+	r.Post("/accounts/{id}/line-items", func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, "Invalid form", http.StatusBadRequest)
+			return
+		}
+		id := chi.URLParam(r, "id")
+		name := r.FormValue("name")
+		balance := r.FormValue("balance")
+		_ = name
+		_ = balance
+		// TODO: persist line item
+		_ = id // suppress unused warning
+		http.Redirect(w, r, "/accounts/"+id, http.StatusSeeOther)
 	})
 
 	// Start server
