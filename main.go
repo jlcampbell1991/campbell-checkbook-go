@@ -1,31 +1,34 @@
 package main
 
 import (
-	"os"
-	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"embed"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
-	"github.com/jlcampbell1991/campbell-checkbook-go/utils"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
+	"github.com/jlcampbell1991/campbell-checkbook-go/utils"
 )
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html
+//go:embed views/layouts/*.tmpl views/layouts/*.html views/transactions/*.tmpl
 var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
 	tmpl = tmpl.Funcs(template.FuncMap{"isWithdrawal": utils.IsWithdrawal})
+
+	// Make templates available to transaction handler
+	handlers.SetTemplate(tmpl)
 
 	config.Load()
 
@@ -45,6 +48,9 @@ func main() {
 	// Mount account routes
 	r.Mount("/accounts", handlers.AccountRoutes(tmpl, repo))
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, lineItemRepo))
+
+	// Transactions page
+	r.Get("/transactions", handlers.TransactionsIndex)
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
