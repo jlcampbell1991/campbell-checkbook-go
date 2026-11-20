@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
-	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 	"embed"
 	"html/template"
 	"log"
@@ -14,6 +13,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
 	"github.com/jlcampbell1991/campbell-checkbook-go/utils"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 )
 
 //go:embed views/layouts/*.tmpl views/layouts/*.html
@@ -33,6 +33,7 @@ func main() {
 
 	// Initialize repository (stub implementation)
 	repo := db.NewStubAccountRepo()
+	lineItemRepo := db.NewStubLineItemRepo()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
@@ -43,6 +44,7 @@ func main() {
 
 	// Mount account routes
 	r.Mount("/accounts", handlers.AccountRoutes(tmpl, repo))
+	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, lineItemRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

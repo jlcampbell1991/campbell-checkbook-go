@@ -1,12 +1,11 @@
-Implemented the Account "show" page and delete endpoint.
+Implemented Line‑Item "show" page and endpoint.
 
-### Changes
-- Added route registration in `main.go` and stub repository initialization.
-- Created `cmd/handlers/accounts.go` with show and delete handlers.
-- Defined domain models `Account` and `Transaction`.
-- Introduced `internal/db/account_repository.go` interface and a stub implementation.
-- Added utility `IsWithdrawal` and registered it for templates.
-- Created `views/accounts/show.tmpl` mirroring the Scala show view.
-- Updated `.gitignore` to ignore `pr-description.md` and `commit-message.txt`.
+- Added domain structs for `LineItem` and `PayDayDeposit`.
+- Defined `LineItemRepository` interface with stub implementation.
+- Created handler `cmd/handlers/line_items.go` providing `GET /line-items/{id}` with pagination support.
+- Added Go HTML template `views/line_items/show.tmpl` mirroring the Scala view.
+- Updated `main.go` to instantiate the stub repository and mount the new routes.
+- Adjusted `utils.IsWithdrawal` to accept a float64 for template compatibility.
+- Updated imports accordingly.
 
-These modifications compile the project and expose the new account routes while providing placeholder logic for data access.
+All new code compiles and the server now serves the line‑item show page.

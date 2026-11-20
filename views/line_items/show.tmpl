@@ -1,0 +1,46 @@
+{{define "line_items_show.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>{{.LineItem.Name}}</h2>
+<table class="resource-menu">
+  <tr>
+    <td><a href="/line-items/{{.LineItem.ID}}/edit">Edit</a></td>
+    <td><a href="/line-items/{{.LineItem.ID}}/delete" onclick="return confirm('Are you sure?')">Delete</a></td>
+    <td><a href="/accounts/{{.LineItem.AccountID}}">Account</a></td>
+  </tr>
+  <tr>
+    <td>Balance</td>
+    <td class="{{if isWithdrawal .LineItem.Balance}}withdrawal{{else}}deposit{{end}}">{{printf "%.2f" .LineItem.Balance}}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="/accounts/{{.LineItem.AccountID}}/line-items/{{.LineItem.ID}}/transactions/new">Add transaction</a></td>
+    <td><a href="/transfers/new?line-item-id={{.LineItem.ID}}">Add Transfer</a></td>
+    <td><a href="/pay-day-deposits/new?line-item-id={{.LineItem.ID}}">Add Pay Day Deposit</a></td>
+  </tr>
+</table>
+
+{{if .Deps}}
+<div class="tables">
+<h3>Pay Day Deposits</h3>
+<table>
+{{range .Deps}}
+<tr><td>{{printf "%.2f" .Amount}}</td><td>{{.Date}}</td></tr>
+{{end}}
+</table>
+</div>
+{{end}}
+
+{{if .Transactions}}
+<div class="tables">
+<h3>Transactions</h3>
+<table>
+{{range .Transactions}}
+<tr><td>{{printf "%.2f" .Amount}}</td><td>{{.Category}}</td><td>{{.Date}}</td></tr>
+{{end}}
+</table>
+<a href="{{.NextURL}}">Next</a>
+</div>
+{{end}}
+{{end}}
+{{end}}
