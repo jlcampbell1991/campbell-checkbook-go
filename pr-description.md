@@ -1,15 +1,13 @@
-## PR Description
+Implemented navigation menu and layout enhancements:
 
-Implemented database support package for **campbell-checkbook-go**:
+- Added `.env.example` with `PORT=8080` for configurable server port.
+- Copied Scala stylesheet to `static/stylesheets/application.css` and ensured static serving.
+- Updated `views/layouts/menu.tmpl` to use double‑quoted `id="menu"` matching Scala template.
+- Modified `main.go`:
+  * Imported `os` and the internal config package.
+  * Loaded environment variables via `config.Load()`.
+  * Determined listening port from `PORT` env var (default 8080).
+  * Logged the actual address using `log.Printf`.
+- Adjusted imports and formatting per Go conventions.
 
-- Added `.env` loader (`internal/config/config.go`).
-- Created DB configuration struct and loader (`internal/db/config.go`).
-- Implemented PostgreSQL DSN builder (`internal/db/url.go`).
-- Added migration runner stub (`internal/db/migrate.go`).
-- Defined generic `DB` interface and concrete wrapper (`internal/db/db.go`).
-- Provided unit test for DSN construction (`internal/db/db_test.go`).
-- Created migrations directory placeholder.
-- Updated module dependencies to include `godotenv`, `golang-migrate`, and `pgx`.
-- Ensured `.gitignore` already contains `task-description.md`.
-
-These changes lay the groundwork for database interactions and future migrations.
+These changes bring the Go UI into visual parity with the Scala implementation and make the server port configurable via environment variables.
