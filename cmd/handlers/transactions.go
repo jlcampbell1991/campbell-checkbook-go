@@ -73,8 +73,16 @@ func (s *transactionService) index(w http.ResponseWriter, r *http.Request) {
 
 // new renders the form for creating a transaction.
 func (s *transactionService) new(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("New Transaction Form"))
+	data := struct {
+		AccountID  string
+		LineItemID string
+	}{
+		AccountID:  r.URL.Query().Get("account_id"),
+		LineItemID: r.URL.Query().Get("line_item_id"),
+	}
+	if err := s.tmpl.ExecuteTemplate(w, "add.tmpl", data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 // create handles POST form submission to create a transaction.

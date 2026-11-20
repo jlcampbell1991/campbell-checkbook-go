@@ -1,7 +1,7 @@
-feat(transactions): add CRUD UI and backend
+feat(transactions): add CRUD UI and handlers for transactions
 
-- New transactionService and TransactionRoutes with list, new, and create endpoints.
-- Extended TransactionRepository interface and stub implementation.
-- Mounted transaction router in main.go.
-- Added templates: add, edit, csv_form.
-- Added unit tests for handlers and repository stubs.
+- Implement TransactionRoutes with index, new, create endpoints.
+- Render transaction add form via new handler.
+- Parse and validate transaction creation form, persist via stub repo.
+- Include redirect logic after creation.
+- Ensure templates are integrated and routing mounted.
