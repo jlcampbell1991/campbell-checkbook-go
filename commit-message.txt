@@ -1,0 +1,10 @@
+feat(db): add database support package
+
+- Load environment variables from .env
+- DB configuration struct with defaults and mandatory user
+- PostgreSQL DSN builder
+- Migration runner (file source) placeholder
+- Generic DB interface and constructor
+- Unit test for DSN construction
+- Added required dependencies to go.mod
+- Created migrations directory placeholder
