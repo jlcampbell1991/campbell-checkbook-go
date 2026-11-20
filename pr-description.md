@@ -1,8 +1,9 @@
-Implemented full Pay Day CRUD UI and backend:
-- Added domain model `PayDay` and request struct.
-- Created repository interfaces and stub implementations for PayDays and PayDayDeposits.
-- Developed `PayDayRoutes` with handlers for list, inactive list, show, new, create, edit, update, deactivate, reactivate, and get‑paid.
-- Added HTML templates for Pay Day pages (index, inactive, form, show).
-- Updated main application to parse new templates and mount the Pay Day router.
-- Provided unit tests for Pay Day new‑form handler and adjusted existing tests to work with new templates.
-All code passes `go test ./...`, `go vet`, and `gofmt` checks.
+Implemented Pay Day Deposits UI and backend.
+
+- Added embed of new view templates and parsing in `main.go`.
+- Created `cmd/handlers/pay_day_deposits.go` providing routes for creating a deposit (`GET /new` and `POST /`).
+- Implemented `payDayDepositService` with dependencies on `PayDayRepository`, `PayDayDepositRepository`, and `LineItemRepository`.
+- Added HTML templates (`form.tmpl`, `add.tmpl`, `edit.tmpl`) under `views/pay_day_deposits/` for rendering the deposit form.
+- Updated routing in `main.go` to mount the new deposit routes.
+- Added unit tests `pay_day_deposits_test.go` covering form rendering and deposit creation handling.
+- Ensured all new code follows project conventions and compiles with existing build pipeline.

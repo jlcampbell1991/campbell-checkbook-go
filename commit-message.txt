@@ -1,8 +1,7 @@
-feat(paydays): add full CRUD UI and backend
+feat: add Pay Day Deposit form and routes
 
-- Domain model `PayDay` and request struct added.
-- Stub repositories for PayDay and PayDayDeposit.
-- `PayDayRoutes` with all CRUD handlers.
-- HTML templates for Pay Day pages.
-- Main router updated to include Pay Day routes.
-- Unit tests for Pay Day handler.
+- Embed and parse new pay_day_deposits templates.
+- Implement handler with GET /new and POST creation.
+- Add corresponding HTML templates.
+- Register routes in main.go.
+- Provide unit tests for rendering and submission.
