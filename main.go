@@ -24,7 +24,7 @@ var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl", "views/line_items/*.tmpl")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl", "views/line_items/*.tmpl", "views/pay_days/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -96,6 +96,9 @@ func main() {
 	// Mount account routes
 	r.Mount("/accounts", handlers.AccountRoutes(tmpl, repo))
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, lineItemRepo))
+	payDayRepo := db.NewStubPayDayRepo()
+	payDayDepRepo := db.NewStubPayDayDepositRepo()
+	r.Mount("/pay-days", handlers.PayDayRoutes(tmpl, payDayRepo, payDayDepRepo, lineItemRepo, repo))
 
 	// Transactions page
 	r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))

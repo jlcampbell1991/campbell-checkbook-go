@@ -1,7 +1,8 @@
-feat(transactions): add CRUD UI and handlers for transactions
+feat(paydays): add full CRUD UI and backend
 
-- Implement TransactionRoutes with index, new, create endpoints.
-- Render transaction add form via new handler.
-- Parse and validate transaction creation form, persist via stub repo.
-- Include redirect logic after creation.
-- Ensure templates are integrated and routing mounted.
+- Domain model `PayDay` and request struct added.
+- Stub repositories for PayDay and PayDayDeposit.
+- `PayDayRoutes` with all CRUD handlers.
+- HTML templates for Pay Day pages.
+- Main router updated to include Pay Day routes.
+- Unit tests for Pay Day handler.
