@@ -1,10 +1,7 @@
-feat(db): add database support package
+Add configurable port, navigation menu fixes, and stylesheet
 
-- Load environment variables from .env
-- DB configuration struct with defaults and mandatory user
-- PostgreSQL DSN builder
-- Migration runner (file source) placeholder
-- Generic DB interface and constructor
-- Unit test for DSN construction
-- Added required dependencies to go.mod
-- Created migrations directory placeholder
+- Introduce `.env.example` with default PORT
+- Copy Scala CSS to `static/stylesheets/application.css`
+- Switch menu template to double‑quoted id attribute
+- Load env vars via internal config and use `PORT` env variable for server address
+- Update imports and logging in `main.go` accordingly

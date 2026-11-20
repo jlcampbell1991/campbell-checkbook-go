@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"embed"
 	"html/template"
 	"log"
@@ -20,6 +22,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
+
+	config.Load()
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -45,8 +49,13 @@ func main() {
 		}
 	})
 
-	log.Println("Server listening on :8080")
-	if err := http.ListenAndServe(":8080", r); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	addr := ":" + port
+	log.Printf("Server listening on %s", addr)
+	if err := http.ListenAndServe(addr, r); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
 }
