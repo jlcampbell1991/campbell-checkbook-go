@@ -19,12 +19,12 @@ import (
 	"strconv"
 )
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html views/transactions/*.tmpl views/line_items/*.tmpl
+//go:embed views/layouts/*.tmpl views/layouts/*.html views/transactions/*.tmpl views/line_items/*.tmpl views/pay_day_deposits/*.tmpl
 var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl", "views/line_items/*.tmpl", "views/pay_days/*.tmpl")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl", "views/line_items/*.tmpl", "views/pay_days/*.tmpl", "views/pay_day_deposits/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -99,6 +99,7 @@ func main() {
 	payDayRepo := db.NewStubPayDayRepo()
 	payDayDepRepo := db.NewStubPayDayDepositRepo()
 	r.Mount("/pay-days", handlers.PayDayRoutes(tmpl, payDayRepo, payDayDepRepo, lineItemRepo, repo))
+	r.Mount("/pay-day-deposits", handlers.PayDayDepositRoutes(tmpl, payDayRepo, payDayDepRepo, lineItemRepo))
 
 	// Transactions page
 	r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))

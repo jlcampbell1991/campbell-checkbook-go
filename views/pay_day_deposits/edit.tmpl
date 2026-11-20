@@ -1,0 +1,13 @@
+{{define "pay_day_deposits_edit.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>{{.Title}}</h2>
+<form action="{{.Action}}" method="{{.Method}}">
+    Amount: <input type="number" name="amount" step="any" required {{if .MaybeDep}}value="{{.MaybeDep.Amount}}"{{end}}><br/>
+    Pay Day ID: <input type="text" name="payDay" required><br/>
+    Line Item ID: <input type="text" name="lineItem" required><br/>
+    Date: <input type="date" name="date" {{if .MaybeDep}}value="{{.MaybeDep.Date}}"{{end}} required><br/>
+    <input type="submit" value="Submit"/>
+</form>
+{{end}}
+{{end}}
