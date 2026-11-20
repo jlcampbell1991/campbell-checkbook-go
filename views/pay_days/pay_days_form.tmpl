@@ -1,0 +1,13 @@
+{{define "pay_days_form.tmpl"}}
+<h2>{{.Title}}</h2>
+<form method="{{.Method}}" action="{{.Action}}">
+<label>Name: <input type="text" name="name" value="{{if .PayDay}}{{.PayDay.Name}}{{end}}"></label><br>
+<label>Total: <input type="number" step="any" name="total" value="{{if .PayDay}}{{.PayDay.Total}}{{end}}"></label><br>
+<label>Account: <select name="accountId">
+{{range .Accounts}}
+<option value="{{.ID}}" {{if $.PayDay}} {{if eq $.PayDay.AccountId .ID}}selected{{end}} {{end}}>{{.Name}}</option>
+{{end}}
+</select></label><br>
+<button type="submit">Save</button>
+</form>
+{{end}}

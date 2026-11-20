@@ -1,0 +1,9 @@
+{{define "pay_days_inactive.tmpl"}}
+<h2>Inactive Pay Days</h2>
+<table>
+<tr><th>Name</th><th>Total</th></tr>
+{{range .PayDays}}
+<tr><td>{{.Name}}</td><td>{{.Total}}</td></tr>
+{{end}}
+</table>
+{{end}}

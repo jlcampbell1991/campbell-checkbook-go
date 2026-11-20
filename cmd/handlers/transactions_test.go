@@ -17,8 +17,7 @@ import (
 func TestTransactionNew(t *testing.T) {
     // Parse minimal templates needed for the handler
     // Use an empty template as handlers do not rely on parsed templates for these tests.
-    tmpl := template.New("test")
-    var err error = nil
+    tmpl, err := template.New("test").Parse("{{define \"add.tmpl\"}}{{end}}")
     if err != nil {
         t.Fatalf("template parse error: %v", err)
     }
@@ -35,8 +34,7 @@ func TestTransactionNew(t *testing.T) {
 
 func TestTransactionCreate(t *testing.T) {
     // Use an empty template as handlers do not rely on parsed templates for these tests.
-    tmpl := template.New("test")
-    var err error = nil
+    tmpl, err := template.New("test").Parse("{{define \"add.tmpl\"}}{{end}}")
     if err != nil {
         t.Fatalf("template parse error: %v", err)
     }
