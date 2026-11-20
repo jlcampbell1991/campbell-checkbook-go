@@ -1,0 +1,10 @@
+{{define "transactions_csv_form.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>Upload Transactions CSV</h2>
+<form method="POST" action="/transactions/upload-csv" enctype="multipart/form-data">
+    <label>CSV File: <input type="file" name="csv" accept=".csv" required></label><br>
+    <button type="submit">Upload</button>
+</form>
+{{end}}
+{{end}}

@@ -40,6 +40,7 @@ func main() {
 	// Initialize repository (stub implementation)
 	repo := db.NewStubAccountRepo()
 	lineItemRepo := db.NewStubLineItemRepo()
+	transactionRepo := db.NewStubTransactionRepo()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
@@ -97,7 +98,7 @@ func main() {
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, lineItemRepo))
 
 	// Transactions page
-	r.Get("/transactions", handlers.TransactionsIndex)
+	r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

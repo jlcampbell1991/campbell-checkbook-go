@@ -1,7 +1,7 @@
-feat: add line‑item creation form and repository Insert support
+feat(transactions): add CRUD UI and backend
 
-- Parse new line‑item templates.
-- New GET/POST routes for creating line items.
-- Added `Insert` method to `LineItemRepository` and stub implementation.
-- New `line_items_form.tmpl` template.
-- Unit test for stub Insert.
+- New transactionService and TransactionRoutes with list, new, and create endpoints.
+- Extended TransactionRepository interface and stub implementation.
+- Mounted transaction router in main.go.
+- Added templates: add, edit, csv_form.
+- Added unit tests for handlers and repository stubs.
