@@ -1,0 +1,10 @@
+{{define "accounts_add.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>New Account</h2>
+<form action="/accounts" method="post">
+    Name: <input type="text" name="name" required><br>
+    <input type="submit" value="Create Account">
+</form>
+{{end}}
+{{end}}

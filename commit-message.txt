@@ -1,9 +1,8 @@
-feat: add transactions page with pagination and stub repository
+Add account creation form and handlers
 
-- Register `/transactions` route.
-- Define full Transaction domain struct.
-- Stub TransactionRepository with Index and GetAll.
-- Implement TransactionsIndex handler.
-- Add transaction templates.
-- Update embed and template parsing.
-- Fix utils.IsWithdrawal and remove unused imports.
+- Register `/accounts/new` (GET) and `/accounts` (POST) routes.
+- Implement `new` handler to render `accounts_add.tmpl`.
+- Implement `create` handler to parse form, validate name, insert via repository, and redirect.
+- Add `views/accounts/add.tmpl` template.
+- Add unit tests for the new handlers.
+- Update documentation comments.

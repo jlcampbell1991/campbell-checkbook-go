@@ -20,6 +20,8 @@ type accountService struct {
 func AccountRoutes(t *template.Template, repo db.AccountRepository) chi.Router {
 	h := &accountService{repo: repo, tmpl: t}
 	r := chi.NewRouter()
+	r.Get("/new", h.new)
+	r.Post("/", h.create)
 	r.Get("/{id}", h.show)
 	r.Get("/{id}/delete", h.delete)
 	return r
@@ -75,6 +77,32 @@ func (h *accountService) delete(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	id := chi.URLParam(r, "id")
 	if err := h.repo.Destroy(ctx, id); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+// new renders the form for creating a new account.
+func (h *accountService) new(w http.ResponseWriter, r *http.Request) {
+	if err := h.tmpl.ExecuteTemplate(w, "accounts_add.tmpl", struct{}{}); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+// create handles the POST submission to create a new account.
+func (h *accountService) create(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	name := r.FormValue("name")
+	if name == "" {
+		http.Error(w, "name is required", http.StatusBadRequest)
+		return
+	}
+	acc := domain.Account{Name: name}
+	if _, err := h.repo.Insert(r.Context(), acc); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
