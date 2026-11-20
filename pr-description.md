@@ -1,11 +1,10 @@
-Implemented the accounts creation UI and backend:
+Implemented line‑item creation UI and backend.
 
-- Added routes `GET /accounts/new` and `POST /accounts` in `cmd/handlers/accounts.go`.
-- Implemented `new` handler to render the account creation form.
-- Implemented `create` handler to process form submissions, validate the `name` field, insert a new account via `AccountRepository`, and redirect to home.
-- Updated route registration order to include the new endpoints.
-- Added `views/accounts/add.tmpl` template for the new account form.
-- Added unit tests `TestAccountNewHandler` and `TestAccountCreateHandler` covering rendering and submission handling.
-- Ensured code passes `go test`, `go vet`, and is formatted with `gofmt`.
+- Added template parsing for `views/line_items/*.tmpl`.
+- Created `line_items_form.tmpl` providing a form for new line items.
+- Introduced GET `/accounts/{id}/line-items/new` and POST `/accounts/{id}/line-items` routes in `main.go` with handlers that render the form, validate input, insert via repository, and redirect to the account page.
+- Extended `LineItemRepository` with an `Insert` method and implemented it in the stub repository, returning a placeholder ID.
+- Updated imports to include `fmt`, `strconv`, and the domain package.
+- Added unit test for the stub `Insert` implementation.
 
-These changes fulfill the task requirement to provide a UI and backend for adding new accounts.
+All code passes `go vet` and `go test ./...`.

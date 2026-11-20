@@ -7,6 +7,7 @@ import (
 
 // LineItemRepository defines data access methods needed by the line‑item handlers.
 type LineItemRepository interface {
+	Insert(ctx context.Context, li domain.LineItem) (string, error)
 	Show(ctx context.Context, id string) (domain.LineItem, error)
 	GetTransactions(ctx context.Context, lineItemID string, page int) ([]domain.Transaction, error)
 	GetPayDayDeposits(ctx context.Context, lineItemID string) ([]domain.PayDayDeposit, error)
@@ -15,6 +16,13 @@ type LineItemRepository interface {
 // StubLineItemRepo is a minimal in‑memory implementation used to satisfy compilation.
 // In a real application this would be backed by PostgreSQL via pgx.
 type StubLineItemRepo struct{}
+
+func (s *StubLineItemRepo) Insert(ctx context.Context, li domain.LineItem) (string, error) {
+	if li.ID == "" {
+		li.ID = "stub-id"
+	}
+	return li.ID, nil
+}
 
 func NewStubLineItemRepo() LineItemRepository { return &StubLineItemRepo{} }
 

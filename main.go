@@ -13,15 +13,18 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/domain"
 	"github.com/jlcampbell1991/campbell-checkbook-go/utils"
+	"fmt"
+	"strconv"
 )
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html views/transactions/*.tmpl
+//go:embed views/layouts/*.tmpl views/layouts/*.html views/transactions/*.tmpl views/line_items/*.tmpl
 var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl", "views/line_items/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -44,6 +47,50 @@ func main() {
 	staticDir := http.Dir(filepath.Join("static"))
 	r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(staticDir)))
 	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(staticDir)))
+
+	// New line-item creation routes
+	r.Get("/accounts/{id}/line-items/new", func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		data := struct {
+			Title     string
+			Action    string
+			Method    string
+			AccountID string
+		}{
+			Title:     "New Line Item",
+			Action:    fmt.Sprintf("/accounts/%s/line-items", id),
+			Method:    "post",
+			AccountID: id,
+		}
+		if err := tmpl.ExecuteTemplate(w, "line_items_form.tmpl", data); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
+
+	r.Post("/accounts/{id}/line-items", func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		name := r.FormValue("name")
+		balStr := r.FormValue("balance")
+		accountId := r.FormValue("accountId")
+		if name == "" {
+			http.Error(w, "name required", http.StatusBadRequest)
+			return
+		}
+		bal, err := strconv.ParseFloat(balStr, 64)
+		if err != nil {
+			http.Error(w, "invalid balance", http.StatusBadRequest)
+			return
+		}
+		li := domain.LineItem{Name: name, Balance: bal, AccountID: accountId}
+		if _, err := lineItemRepo.Insert(r.Context(), li); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, fmt.Sprintf("/accounts/%s", accountId), http.StatusSeeOther)
+	})
 
 	// Mount account routes
 	r.Mount("/accounts", handlers.AccountRoutes(tmpl, repo))
