@@ -1,8 +1,7 @@
-Add account creation form and handlers
+feat: add line‑item creation form and repository Insert support
 
-- Register `/accounts/new` (GET) and `/accounts` (POST) routes.
-- Implement `new` handler to render `accounts_add.tmpl`.
-- Implement `create` handler to parse form, validate name, insert via repository, and redirect.
-- Add `views/accounts/add.tmpl` template.
-- Add unit tests for the new handlers.
-- Update documentation comments.
+- Parse new line‑item templates.
+- New GET/POST routes for creating line items.
+- Added `Insert` method to `LineItemRepository` and stub implementation.
+- New `line_items_form.tmpl` template.
+- Unit test for stub Insert.
