@@ -1,11 +1,11 @@
-Implemented Line‑Item "show" page and endpoint.
+Implemented the Transactions page:
 
-- Added domain structs for `LineItem` and `PayDayDeposit`.
-- Defined `LineItemRepository` interface with stub implementation.
-- Created handler `cmd/handlers/line_items.go` providing `GET /line-items/{id}` with pagination support.
-- Added Go HTML template `views/line_items/show.tmpl` mirroring the Scala view.
-- Updated `main.go` to instantiate the stub repository and mount the new routes.
-- Adjusted `utils.IsWithdrawal` to accept a float64 for template compatibility.
-- Updated imports accordingly.
-
-All new code compiles and the server now serves the line‑item show page.
+- Added route registration for `/transactions` in `main.go`.
+- Created domain model with full transaction fields.
+- Added stub transaction repository (`internal/db/transaction_repo.go`).
+- Implemented HTTP handler `TransactionsIndex` with pagination, template rendering, and stub data retrieval.
+- Provided `SetTemplate` to share parsed templates with the handler.
+- Added transaction templates (`views/transactions/layout.tmpl` and `views/transactions/index.tmpl`).
+- Updated embed directive and template parsing to include new templates.
+- Fixed utility function `IsWithdrawal` and cleaned unused imports.
+- Ran go vet, go test, and gofmt to ensure code quality.
