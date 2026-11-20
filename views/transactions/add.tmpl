@@ -1,0 +1,15 @@
+{{define "add.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>New Transaction</h2>
+<form method="POST" action="/transactions">
+    <label>Date: <input type="date" name="date" required></label><br>
+    <label>Memo: <input type="text" name="memo" required></label><br>
+    <label>Amount: <input type="number" step="0.01" name="amount" required></label><br>
+    <label>Category: <input type="text" name="category"></label><br>
+    <input type="hidden" name="account_id" value="{{.AccountID}}">
+    <input type="hidden" name="line_item_id" value="{{.LineItemID}}">
+    <button type="submit">Create</button>
+</form>
+{{end}}
+{{end}}
