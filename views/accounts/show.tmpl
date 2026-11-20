@@ -1,0 +1,48 @@
+{{define "accounts_show.tmpl"}}
+{{template "application.tmpl" .}}
+{{/* Content block for the layout */}}
+{{define "content"}}
+<h2>{{.Account.Name}}</h2>
+<table class="resource-menu">
+  <tr>
+    <td>Balance</td>
+    <td class="{{if isWithdrawal .Account.Balance}}withdrawal{{else}}deposit{{end}}">{{printf "%.2f" .Account.Balance}}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Budget</td>
+    <td class="{{if isWithdrawal .Account.Budget}}withdrawal{{else}}deposit{{end}}">{{printf "%.2f" .Account.Budget}}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="/accounts/{{.Account.ID}}/edit">Edit</a></td>
+    <td><a href="/accounts/{{.Account.ID}}/delete" onclick="return confirm('Are you sure?')">Delete</a></td>
+    <td><a href="/accounts/{{.Account.ID}}/line-items/new">New Line Item</a></td>
+  </tr>
+</table>
+
+<div class="tables">
+  <h3>Line Items</h3>
+  {{/* Placeholder for line items partial */}}
+  {{/* Implement later */}}
+</div>
+
+{{if .Transactions}}
+<div class="tables">
+  <h3>Transactions</h3>
+  {{/* Placeholder for transactions layout */}}
+  {{/* Implement later */}}
+</div>
+{{end}}
+
+{{if .Dislocated}}
+<div class="tables">
+  <span>
+    <h3>Dislocated Transactions</h3>
+    <div><a href="/accounts/{{.Account.ID}}/relocate-all">Transfer All: {{printf "%.2f" .DlTotal}}</a></div>
+  </span>
+  {{/* Placeholder for dislocated transactions */}}
+</div>
+{{end}}
+{{end}}
+{{end}}

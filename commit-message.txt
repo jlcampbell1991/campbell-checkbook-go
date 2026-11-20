@@ -1,7 +1,9 @@
-Add configurable port, navigation menu fixes, and stylesheet
+feat: add account show page and delete endpoint
 
-- Introduce `.env.example` with default PORT
-- Copy Scala CSS to `static/stylesheets/application.css`
-- Switch menu template to double‑quoted id attribute
-- Load env vars via internal config and use `PORT` env variable for server address
-- Update imports and logging in `main.go` accordingly
+- Register accounts router in main.go
+- Implement show and delete handlers
+- Define domain structs for Account and Transaction
+- Add AccountRepository interface with stub implementation
+- Add IsWithdrawal utility and template registration
+- Create accounts/show.tmpl template
+- Update .gitignore to exclude description files

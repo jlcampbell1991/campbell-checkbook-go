@@ -1,13 +1,12 @@
-Implemented navigation menu and layout enhancements:
+Implemented the Account "show" page and delete endpoint.
 
-- Added `.env.example` with `PORT=8080` for configurable server port.
-- Copied Scala stylesheet to `static/stylesheets/application.css` and ensured static serving.
-- Updated `views/layouts/menu.tmpl` to use double‑quoted `id="menu"` matching Scala template.
-- Modified `main.go`:
-  * Imported `os` and the internal config package.
-  * Loaded environment variables via `config.Load()`.
-  * Determined listening port from `PORT` env var (default 8080).
-  * Logged the actual address using `log.Printf`.
-- Adjusted imports and formatting per Go conventions.
+### Changes
+- Added route registration in `main.go` and stub repository initialization.
+- Created `cmd/handlers/accounts.go` with show and delete handlers.
+- Defined domain models `Account` and `Transaction`.
+- Introduced `internal/db/account_repository.go` interface and a stub implementation.
+- Added utility `IsWithdrawal` and registered it for templates.
+- Created `views/accounts/show.tmpl` mirroring the Scala show view.
+- Updated `.gitignore` to ignore `pr-description.md` and `commit-message.txt`.
 
-These changes bring the Go UI into visual parity with the Scala implementation and make the server port configurable via environment variables.
+These modifications compile the project and expose the new account routes while providing placeholder logic for data access.
