@@ -1,0 +1,1 @@
+Add database support package with config loader, DSN builder, migration runner, placeholder DB interface, and unit test; update .gitignore and dependencies
