@@ -1,7 +1,10 @@
-Add configurable port, navigation menu fixes, and CSS styling
+feat(accounts): add show page and delete endpoint
 
-- Load .env and read PORT (default 8080)
-- Update imports and server start logic in main.go
-- Fix menu template id attribute quoting
-- Add .env.example
-- Add static/stylesheets/application.css (copied from Scala project)
+- Register accounts router in main.go
+- Implement show and delete handlers in cmd/handlers/accounts.go
+- Define domain structs for Account and Transaction
+- Add AccountRepository interface with required methods
+- Create show.tmpl and supporting templates for line items and transactions
+- Add isWithdrawal utility and template function registration
+- Update .gitignore to ignore task-description.md
+- Add unit tests for handlers
