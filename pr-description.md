@@ -1,13 +1,11 @@
-Implemented database support for the Checkbook Go project.
+Implemented navigation menu and application layout enhancements:
 
-- Added `.gitignore` entry for `task-description.md`.
-- Created `internal/config/config.go` to load environment variables from a `.env` file.
-- Implemented `internal/db/config.go` with a `Config` struct and `Load` function that reads DB connection settings.
-- Added `internal/db/url.go` providing `BuildPostgresURL` to construct a PostgreSQL DSN.
-- Added `internal/db/migrate.go` to run migrations using golang‑migrate.
-- Added a minimal `DB` interface and concrete implementation in `internal/db/db.go`.
-- Provided a unit test `TestBuildPostgresURL` in `internal/db/db_test.go`.
-- Created empty `internal/db/migrations` directory for future migration files.
-- Added required third‑party dependencies (`godotenv`, `golang-migrate`, `pgx`).
+- Added `.env.example` with default `PORT=8080`.
+- Copied Scala CSS stylesheet to `static/stylesheets/application.css`.
+- Updated `main.go` to load environment variables via `internal/config`, read `PORT` (default 8080), and log the listening address.
+- Imported `os` and config package, invoked `config.Load()`.
+- Fixed menu template to use double‑quoted `id="menu"` for exact HTML parity with Scala version.
+- Adjusted server start logic to use the configurable address.
+- Ensured static assets are served correctly.
 
-All code compiles, passes `go test ./...`, and conforms to formatting and vet checks.
+These changes provide configurable server port, correct navigation menu markup, and proper styling matching the original Scala implementation.

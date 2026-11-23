@@ -1,1 +1,7 @@
-Add database support package with config loader, DSN builder, migration runner, placeholder DB interface, and unit test; update .gitignore and dependencies
+Add configurable port, navigation menu fixes, and CSS styling
+
+- Load .env and read PORT (default 8080)
+- Update imports and server start logic in main.go
+- Fix menu template id attribute quoting
+- Add .env.example
+- Add static/stylesheets/application.css (copied from Scala project)
