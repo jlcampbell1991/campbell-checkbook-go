@@ -1,1 +1,7 @@
-feat(transactions): add CRUD UI, routes, repository methods, and tests
+feat: add Pay Day Deposit form UI and routes
+
+- Embed new pay_day_deposits templates
+- Register /pay-day-deposits routes with GET /new and POST /
+- Implement handler for rendering form and creating deposits using stub repos
+- Add corresponding view templates (form, add, edit)
+- Add unit tests for GET new and POST create endpoints

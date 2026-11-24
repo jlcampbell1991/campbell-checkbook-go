@@ -19,12 +19,12 @@ import (
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/utils"
 )
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html views/line_items/*.tmpl views/pay_days/*.tmpl views/transactions/*.tmpl
+//go:embed views/layouts/*.tmpl views/layouts/*.html views/line_items/*.tmpl views/pay_days/*.tmpl views/pay_day_deposits/*.tmpl views/transactions/*.tmpl
 var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates and line‑item templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/line_items/*.tmpl", "views/transactions/*.tmpl")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/line_items/*.tmpl", "views/transactions/*.tmpl", "views/pay_day_deposits/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -95,6 +95,8 @@ func main() {
 
 	// Register pay‑day routes
 	r.Mount("/pay-days", handlers.PayDayRoutes(tmpl, payDayRepo, payDayDepositRepo, repo, accountRepo))
+	// Register pay‑day deposit routes
+	r.Mount("/pay-day-deposits", handlers.PayDayDepositRoutes(tmpl, payDayRepo, payDayDepositRepo, repo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

@@ -1,15 +1,13 @@
-# Pull Request Description
+# Pay Day Deposits Form Implementation
 
-Implemented full CRUD UI and backend for transactions in the Go version of Campbell Checkbook.
+Implemented the UI and backend for creating Pay Day Deposits.
 
-## Key Changes
-- **Transaction Service & Router** (`cmd/handlers/transactions.go`): Added `transactionService` with handlers for index, new, and create. Implemented `TransactionRoutes` exposing `/transactions`, `/transactions/new`, and POST `/transactions`.
-- **Repository Interface** (`internal/db/transaction_repo.go`): Extended `TransactionRepository` with `Create`, `Show`, `Update`, and `Delete` methods and provided stub implementations in `StubTransactionRepository`.
-- **Main Application** (`main.go`): Mounted the new transaction router and removed the previous single GET route.
-- **HTML Templates** (`views/transactions/*.tmpl`): Added `add.tmpl`, `edit.tmpl`, and `csv_form.tmpl` for transaction creation, editing, and CSV upload UI.
-- **Tests**:
-  - `cmd/handlers/transactions_test.go` – verifies the new form rendering, successful creation redirects, and validation errors.
-  - `internal/db/transaction_repo_test.go` – ensures stub repository methods behave as expected.
-- **.gitignore** already contains `task-description.md` (no change needed).
+## Changes
+- **Embedded templates**: Updated `main.go` embed directive and parsing to include `views/pay_day_deposits/*.tmpl`.
+- **Routes**: Added mount for `/pay-day-deposits` in `main.go` and created `PayDayDepositRoutes` with `GET /new` and `POST /` endpoints.
+- **Handler**: New `cmd/handlers/pay_day_deposits.go` handling form rendering and deposit creation using stub repositories.
+- **Repository**: Utilized existing `PayDayRepository` and `PayDayDepositRepository` stubs.
+- **Templates**: Added `form.tmpl`, `add.tmpl`, and `edit.tmpl` under `views/pay_day_deposits` for the deposit form.
+- **Tests**: Added unit tests `pay_day_deposits_test.go` covering form rendering and submission with redirect.
 
-All code follows the project's Go conventions, passes `go vet`, `gofmt`, and the full test suite.
+All new code follows project conventions, passes `go fmt`, `go vet`, and existing unit tests.
