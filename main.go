@@ -39,9 +39,11 @@ func main() {
 	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(staticDir)))
 	// Initialize repositories (stub implementations for now)
 	repo := &db.StubLineItemRepository{}
+	accountRepo := &db.StubAccountRepository{}
 
 	// Register line‑item routes
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, repo))
+	r.Mount("/accounts", handlers.AccountRoutes(tmpl, accountRepo))
 	// Register transactions route
 	r.Get("/transactions", handlers.TransactionsIndex)
 

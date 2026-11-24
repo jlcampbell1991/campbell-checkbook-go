@@ -1,8 +1,11 @@
-Implemented the Transactions page:
+Implemented account creation UI and backend.
 
-- Added full `Transaction` domain model with comprehensive fields and `time` import.
-- Created stub transaction repository (`internal/db/transaction_repo.go`) exposing `Index` and `GetAll` functions.
-- Developed HTTP handler `TransactionsIndex` to render paginated transaction listings, parse `page` query param, and build a next‑page URL.
-- Embedded transaction templates via `//go:embed` and added `views/transactions/layout.tmpl` and `views/transactions/index.tmpl` reflecting the Scala UI.
-- Registered the `/transactions` route in `main.go`.
-- Updated imports and ensured all new code complies with Go formatting and vet checks.
+### Changes
+- Added `internal/domain/account.go` defining the `Account` struct.
+- Added `internal/db/account_repository.go` with `AccountRepository` interface and a stub implementation.
+- Created `cmd/handlers/accounts.go` with routes for rendering the new‑account form (`GET /accounts/new`) and handling form submissions (`POST /accounts`).
+- Added HTML template `views/accounts/add.tmpl` for the account creation form.
+- Updated `main.go` to initialize the stub account repository and mount the new account routes.
+- Added unit tests `cmd/handlers/accounts_test.go` covering rendering, successful creation, and validation errors.
+
+These updates provide a functional UI for adding accounts and integrate it into the existing server architecture.

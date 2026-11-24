@@ -1,1 +1,8 @@
-feat: add transactions page with domain model, stub repository, handler, templates, and route registration
+feat: add account creation UI and handlers
+
+- Define Account domain model.
+- Introduce AccountRepository interface with stub.
+- Implement account routes (GET /accounts/new, POST /accounts).
+- Add accounts_add.tmpl template.
+- Mount account routes in main.
+- Add unit tests for new handlers.
