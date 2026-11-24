@@ -11,9 +11,12 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
+	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/utils"
 )
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html
+//go:embed views/layouts/*.tmpl views/layouts/*.html views/line_items/*.tmpl views/pay_days/*.tmpl views/transactions/*.tmpl
 var templateFS embed.FS
 
 func main() {
@@ -22,6 +25,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
+	// Register template helper functions
+	tmpl = tmpl.Funcs(utils.FuncMap())
 
 	config.Load()
 	r := chi.NewRouter()
@@ -32,6 +37,11 @@ func main() {
 	staticDir := http.Dir(filepath.Join("static"))
 	r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(staticDir)))
 	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(staticDir)))
+	// Initialize repositories (stub implementations for now)
+	repo := &db.StubLineItemRepository{}
+
+	// Register line‑item routes
+	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, repo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

@@ -1,10 +1,9 @@
-feat(accounts): add show page and delete endpoint
+feat(line-items): add show page and endpoint
 
-- Register accounts router in main.go
-- Implement show and delete handlers in cmd/handlers/accounts.go
-- Define domain structs for Account and Transaction
-- Add AccountRepository interface with required methods
-- Create show.tmpl and supporting templates for line items and transactions
-- Add isWithdrawal utility and template function registration
-- Update .gitignore to ignore task-description.md
-- Add unit tests for handlers
+- Domain structs for LineItem, PayDayDeposit, Transaction
+- LineItemRepository interface with stub implementation
+- HTTP handler for GET /line-items/{id} with pagination
+- Template helper functions and registration
+- Templates for line item show, pay‑day deposits, and transactions
+- Route registration in main.go
+- Unit tests for handler and utils

@@ -1,0 +1,12 @@
+{{define "pay_day_layout.tmpl"}}
+<h3>Pay Day Deposits</h3>
+<table>
+    <tr><th>Date</th><th>Amount</th></tr>
+    {{range .}}
+    <tr>
+        <td>{{.Date}}</td>
+        <td class="{{if IsWithdrawal .Amount}}withdrawal{{else}}deposit{{end}}">{{CurrencyFromDouble .Amount}}</td>
+    </tr>
+    {{end}}
+</table>
+{{end}}
