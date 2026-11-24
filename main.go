@@ -24,7 +24,7 @@ var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates and line‑item templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/line_items/*.tmpl")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/line_items/*.tmpl", "views/transactions/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -88,7 +88,8 @@ func main() {
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, repo))
 	r.Mount("/accounts", handlers.AccountRoutes(tmpl, accountRepo))
 	// Register transactions route
-	r.Get("/transactions", handlers.TransactionsIndex)
+	transactionRepo := &db.StubTransactionRepository{}
+	r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

@@ -1,9 +1,9 @@
-feat(line-items): add form UI and POST handler for creating line items
+feat(transactions): add CRUD UI and backend with stub repository
 
-- Parse line‑item templates in main.go.
-- Register GET `/accounts/{id}/line-items/new` to render `line_items_form.tmpl`.
-- Register POST `/accounts/{id}/line-items` to create a LineItem via repository and redirect.
-- Extend LineItemRepository with Insert method; stub returns placeholder ID.
-- Add `views/line_items/form.tmpl` template.
-- Update imports and add required packages.
-- Add tests for Insert stub and update mock repo for handler tests.
+- transactionService with index, new, create handlers
+- TransactionRoutes mounted at /transactions
+- Extended TransactionRepository interface (Create, Show, Update, Delete)
+- StubTransactionRepository implementation
+- Updated main.go to use new router and load templates
+- Added transaction templates (add, edit, csv_form)
+- Added unit tests for handlers and repository
