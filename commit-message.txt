@@ -1,8 +1,1 @@
-feat(paydays): add CRUD UI and backend for Pay Days
-
-- domain/payday.go with PayDay structs
-- db/payday_repository.go and db/pay_day_deposit_repository.go stub implementations
-- cmd/handlers/payday.go with full route set and handlers
-- views/pay_days templates (form, index, show, inactive index)
-- main.go mounts PayDayRoutes
-- added payday_test.go for handler verification
+feat(transactions): add CRUD UI, routes, repository methods, and tests

@@ -93,8 +93,8 @@ func main() {
 	transactionRepo := &db.StubTransactionRepository{}
 	r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))
 
-		// Register pay‑day routes
-		r.Mount("/pay-days", handlers.PayDayRoutes(tmpl, payDayRepo, payDayDepositRepo, repo, accountRepo))
+	// Register pay‑day routes
+	r.Mount("/pay-days", handlers.PayDayRoutes(tmpl, payDayRepo, payDayDepositRepo, repo, accountRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
