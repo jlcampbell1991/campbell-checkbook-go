@@ -4,10 +4,10 @@ import "fmt"
 
 // FuncMap returns a map of helper functions for html/template.
 func FuncMap() map[string]interface{} {
-    return map[string]interface{}{
-        "IsWithdrawal": IsWithdrawal,
-        "CurrencyFromDouble": CurrencyFromDouble,
-    }
+	return map[string]interface{}{
+		"IsWithdrawal":       IsWithdrawal,
+		"CurrencyFromDouble": CurrencyFromDouble,
+	}
 }
 
 // IsWithdrawal returns true if the amount is negative (a withdrawal).

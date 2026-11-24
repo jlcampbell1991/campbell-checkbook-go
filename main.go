@@ -10,8 +10,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/utils"
 )
@@ -42,6 +42,8 @@ func main() {
 
 	// Register line‑item routes
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, repo))
+	// Register transactions route
+	r.Get("/transactions", handlers.TransactionsIndex)
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

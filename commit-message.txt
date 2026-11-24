@@ -1,9 +1,1 @@
-feat(line-items): add show page and endpoint
-
-- Domain structs for LineItem, PayDayDeposit, Transaction
-- LineItemRepository interface with stub implementation
-- HTTP handler for GET /line-items/{id} with pagination
-- Template helper functions and registration
-- Templates for line item show, pay‑day deposits, and transactions
-- Route registration in main.go
-- Unit tests for handler and utils
+feat: add transactions page with domain model, stub repository, handler, templates, and route registration

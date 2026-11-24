@@ -1,13 +1,28 @@
-{{define "transactions_layout.tmpl"}}
-<table>
-    <tr><th>Date</th><th>Category</th><th>Amount</th></tr>
-    {{range .Transactions}}
+{{ define "transactionsLayout" }}
+<table id="transactions" class="rows">
     <tr>
-        <td>{{.Date}}</td>
-        <td>{{.Category}}</td>
-        <td class="{{if IsWithdrawal .Amount}}withdrawal{{else}}deposit{{end}}">{{CurrencyFromDouble .Amount}}</td>
+        <th>Date</th>
+        <th>Memo</th>
+        <th>Amount</th>
+        <th>Line Item</th>
+        <th>Balance</th>
+        <th>Reconciled</th>
+        <th></th>
     </tr>
-    {{end}}
+    {{ range .Transactions }}
+    <tr class="reconciled-{{ .Reconciled }}">
+        <td>{{ .Date.Format "01-02-2006" }}</td>
+        <td><a href="/transactions/{{ .ID }}/edit">{{ .Memo }}</a></td>
+        <td class="{{ .Category }}">{{ printf "%.2f" .Amount }}</td>
+        <td><a href="/line-items/{{ .LineItemID }}">{{ .LineItem }}</a></td>
+        <td class="{{ if lt .LineItemBalance 0 }}withdrawal{{ end }}">{{ printf "%.2f" .LineItemBalance }}</td>
+        <td><a href="/transactions/{{ .ID }}/toggle-reconciled?reconciled={{ .Reconciled }}">{{ .Reconciled }}</a></td>
+        <td><a href="/line-items/{{ .LineItemID }}/transactions/{{ .ID }}/delete" onclick="return confirm('Are you sure?')">Delete</a></td>
+        {{ if ne .AccountID .LocationID }}
+        <td><a href="/transactions/{{ .ID }}/relocate">Relocate</a></td>
+        {{ end }}
+    </tr>
+    {{ end }}
 </table>
-<a href="{{.NextURL}}">Next</a>
-{{end}}
+<span><a href="{{ .NextURL }}">Next</a></span>
+{{ end }}
