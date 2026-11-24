@@ -2,17 +2,20 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/domain"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/utils"
 )
 
@@ -20,8 +23,8 @@ import (
 var templateFS embed.FS
 
 func main() {
-	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html")
+	// Parse all layout templates and line‑item templates
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/line_items/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -40,6 +43,46 @@ func main() {
 	// Initialize repositories (stub implementations for now)
 	repo := &db.StubLineItemRepository{}
 	accountRepo := &db.StubAccountRepository{}
+
+	// New line‑item creation routes
+	r.Get("/accounts/{id}/line-items/new", func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		data := struct {
+			Title     string
+			Action    string
+			Method    string
+			AccountID string
+		}{
+			Title:     "New Line Item",
+			Action:    fmt.Sprintf("/accounts/%s/line-items", id),
+			Method:    "post",
+			AccountID: id,
+		}
+		if err := tmpl.ExecuteTemplate(w, "line_items_form.tmpl", data); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
+
+	r.Post("/accounts/{id}/line-items", func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		name := r.FormValue("name")
+		balStr := r.FormValue("balance")
+		acct := r.FormValue("accountId")
+		bal, err := strconv.ParseFloat(balStr, 64)
+		if err != nil {
+			http.Error(w, "invalid balance", http.StatusBadRequest)
+			return
+		}
+		li := domain.LineItem{Name: name, Balance: bal, AccountID: acct}
+		if _, err := repo.Insert(r.Context(), li); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, fmt.Sprintf("/accounts/%s", acct), http.StatusSeeOther)
+	})
 
 	// Register line‑item routes
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, repo))

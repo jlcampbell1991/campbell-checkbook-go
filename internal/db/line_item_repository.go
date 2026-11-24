@@ -13,6 +13,8 @@ type LineItemRepository interface {
 	GetTransactions(ctx context.Context, lineItemID string, page int) ([]domain.Transaction, error)
 	// GetPayDayDeposits returns all payday deposits linked to the line‑item.
 	GetPayDayDeposits(ctx context.Context, lineItemID string) ([]domain.PayDayDeposit, error)
+	// Insert adds a new line‑item and returns its ID.
+	Insert(ctx context.Context, li domain.LineItem) (string, error)
 }
 
 // StubLineItemRepository provides a minimal in‑memory implementation used for compilation and testing.
@@ -31,4 +33,12 @@ func (s *StubLineItemRepository) GetTransactions(ctx context.Context, lineItemID
 func (s *StubLineItemRepository) GetPayDayDeposits(ctx context.Context, lineItemID string) ([]domain.PayDayDeposit, error) {
 	// Return an empty slice for now.
 	return []domain.PayDayDeposit{}, nil
+}
+
+// Insert adds a new line‑item; stub returns a placeholder ID.
+func (s *StubLineItemRepository) Insert(ctx context.Context, li domain.LineItem) (string, error) {
+	if li.ID == "" {
+		li.ID = "stub-id"
+	}
+	return li.ID, nil
 }

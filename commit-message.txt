@@ -1,8 +1,9 @@
-feat: add account creation UI and handlers
+feat(line-items): add form UI and POST handler for creating line items
 
-- Define Account domain model.
-- Introduce AccountRepository interface with stub.
-- Implement account routes (GET /accounts/new, POST /accounts).
-- Add accounts_add.tmpl template.
-- Mount account routes in main.
-- Add unit tests for new handlers.
+- Parse line‑item templates in main.go.
+- Register GET `/accounts/{id}/line-items/new` to render `line_items_form.tmpl`.
+- Register POST `/accounts/{id}/line-items` to create a LineItem via repository and redirect.
+- Extend LineItemRepository with Insert method; stub returns placeholder ID.
+- Add `views/line_items/form.tmpl` template.
+- Update imports and add required packages.
+- Add tests for Insert stub and update mock repo for handler tests.

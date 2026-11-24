@@ -24,6 +24,13 @@ func (m *mockRepo) GetPayDayDeposits(ctx context.Context, lineItemID string) ([]
 	return []domain.PayDayDeposit{{ID: "dep1", LineItemID: lineItemID, Amount: 200.0, Date: "2023-01-02"}}, nil
 }
 
+func (m *mockRepo) Insert(ctx context.Context, li domain.LineItem) (string, error) {
+	if li.ID == "" {
+		li.ID = "stub-id"
+	}
+	return li.ID, nil
+}
+
 func TestShowHandler(t *testing.T) {
 	// minimal template set containing the show template and layout placeholder
 	tmplContent := `{{define "application.tmpl"}}{{template "content" .}}{{end}}` +
