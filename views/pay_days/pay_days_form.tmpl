@@ -1,0 +1,12 @@
+{{define "pay_days_form.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>{{.Title}}</h2>
+<form method="{{.Method}}" action="{{.Action}}">
+    Name: <input type="text" name="name" value="{{if .MaybePD}}{{.MaybePD.Name}}{{end}}"><br>
+    Total: <input type="number" step="any" name="total" value="{{if .MaybePD}}{{.MaybePD.Total}}{{end}}"><br>
+    Account: <input type="text" name="account" value="{{if .MaybePD}}{{.MaybePD.AccountId}}{{end}}"><br>
+    <button type="submit">Save</button>
+</form>
+{{end}}
+{{end}}

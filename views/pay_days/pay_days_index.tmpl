@@ -1,0 +1,13 @@
+{{define "pay_days_index.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>Pay Days</h2>
+<a href="/pay-days/new">New Pay Day</a>
+<table>
+<tr><th>Name</th><th>Total</th></tr>
+{{range .PayDays}}
+<tr><td><a href="/pay-days/{{.Id.Value}}">{{.Name}}</a></td><td>{{.Total}}</td></tr>
+{{end}}
+</table>
+{{end}}
+{{end}}

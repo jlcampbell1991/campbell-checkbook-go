@@ -43,6 +43,8 @@ func main() {
 	// Initialize repositories (stub implementations for now)
 	repo := &db.StubLineItemRepository{}
 	accountRepo := &db.StubAccountRepository{}
+	payDayRepo := db.NewStubPayDayRepo()
+	payDayDepositRepo := db.NewStubPayDayDepositRepo()
 
 	// New line‑item creation routes
 	r.Get("/accounts/{id}/line-items/new", func(w http.ResponseWriter, r *http.Request) {
@@ -90,6 +92,9 @@ func main() {
 	// Register transactions route
 	transactionRepo := &db.StubTransactionRepository{}
 	r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))
+
+		// Register pay‑day routes
+		r.Mount("/pay-days", handlers.PayDayRoutes(tmpl, payDayRepo, payDayDepositRepo, repo, accountRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

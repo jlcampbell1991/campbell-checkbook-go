@@ -1,0 +1,9 @@
+{{define "pay_days_show.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>Pay Day: {{.PayDay.Name}}</h2>
+<p>Total: {{.PayDay.Total}}</p>
+<p>Account ID: {{.PayDay.AccountId}}</p>
+<a href="/pay-days/{{.PayDay.Id.Value}}/edit">Edit</a>
+{{end}}
+{{end}}

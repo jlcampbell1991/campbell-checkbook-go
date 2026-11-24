@@ -1,0 +1,9 @@
+{{define "pay_days_inactive_index.tmpl"}}
+{{template "application.tmpl" .}}
+{{define "content"}}
+<h2>Inactive Pay Days</h2>
+<table>
+{{range .PayDays}}<tr><td>{{.Name}}</td></tr>{{end}}
+</table>
+{{end}}
+{{end}}
