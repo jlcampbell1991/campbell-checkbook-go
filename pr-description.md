@@ -1,0 +1,1 @@
+Added a new minimal entry point under `cmd/hello` that prints `hello world` to standard output. This program is isolated from the existing Checkbook web service and can be built/run independently with `go run ./cmd/hello`.
