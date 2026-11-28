@@ -1,0 +1,10 @@
+{{define "content"}}
+<h2>Transactions</h2>
+<table class="resource-menu">
+    <tr>
+        <td><a href="/transactions/upload-csv">Upload CSV</a></td>
+        <td><a href="/transactions/download-csv">Download CSV</a></td>
+    </tr>
+</table>
+{{template "transactions_layout.tmpl" .}}
+{{end}}
