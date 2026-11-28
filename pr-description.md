@@ -1,12 +1,10 @@
-Implemented line‑item creation UI and backend:
+Implemented full CRUD UI and backend for transactions.
 
-- Added template parsing for `views/line_items/*.tmpl`.
-- Created `views/line_items/form.tmpl` containing the new line‑item form.
-- Extended `LineItemRepository` with `Insert` method and provided a stub implementation (`StubLineItemRepo`) that returns a placeholder ID.
-- Exported default repository instance `LineItemRepo`.
-- Added GET route `/accounts/{id}/line-items/new` to render the form.
-- Added POST route `/accounts/{id}/line-items` to process form submissions, insert a new line item via repository, and redirect to the account page.
-- Updated imports in `main.go` to include required packages.
-- Added unit test for the stub `Insert` method.
-
-These changes fulfill the task of providing a functional line‑item creation form while adhering to project conventions.
+- Added TransactionRoutes with GET `/`, GET `/new`, POST `/` handlers.
+- Created `transactionService` struct to encapsulate repository and templates.
+- Implemented index, new, and create handlers (form rendering, validation, repository interaction, redirects).
+- Extended `TransactionRepository` interface with Create, Show, Update, Delete methods and provided stub implementations in `transaction_repo.go`.
+- Updated `main.go` to mount the new transaction router instead of the legacy handler.
+- Added HTML templates: `add.tmpl`, `edit.tmpl`, `csv_form.tmpl` for transaction forms.
+- Added unit tests for the new handlers and stub repository.
+- Ensured `.gitignore` already excludes `task-description.md`.

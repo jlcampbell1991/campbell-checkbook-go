@@ -93,7 +93,8 @@ func main() {
 
 	// Register line‑item routes
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, nil)) // TODO: provide a concrete LineItemRepository implementation
-	r.Get("/transactions", handlers.TransactionsIndex)
+	transactionRepo := db.TransactionRepo // using stub repository
+    r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
