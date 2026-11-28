@@ -1,11 +1,13 @@
-Implemented database support package for campbell-checkbook-go.
+Implemented navigation menu and layout enhancements:
 
-- Added configuration loader (`internal/config/config.go`) using godotenv.
-- Created DB configuration struct and loader (`internal/db/config.go`).
-- Implemented PostgreSQL DSN builder (`internal/db/url.go`).
-- Added migration runner (`internal/db/migrate.go`).
-- Defined placeholder DB interface and constructor (`internal/db/db.go`).
-- Provided unit test for DSN construction (`internal/db/db_test.go`).
-- Created empty migrations directory.
-- Updated .gitignore to ignore task-description.md.
-- Added required dependencies to go.mod.
+- Added `.env.example` with `PORT=8080` for configurable server port.
+- Updated `main.go`:
+  * Imported `os` and the internal `config` package.
+  * Loaded environment variables via `config.Load()`.
+  * Replaced hard‑coded `:8080` with a configurable `PORT` (default 8080).
+  * Adjusted logging to show the actual listening address.
+- Fixed navigation menu template to use double‑quoted `id="menu"` for exact HTML parity.
+- Added static CSS file `static/stylesheets/application.css` copied from the Scala reference implementation.
+- Ensured templates reference the new stylesheet correctly (no code change needed).
+
+These changes bring the Go application UI in line with the Scala version and allow the HTTP port to be configured through environment variables.
