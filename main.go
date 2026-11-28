@@ -2,18 +2,18 @@ package main
 
 import (
 	"embed"
-	"html/template"
 	"fmt"
-	"strconv"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/domain"
 )
@@ -90,10 +90,12 @@ func main() {
 		http.Redirect(w, r, fmt.Sprintf("/accounts/%s", acct), http.StatusSeeOther)
 	})
 
-
 	// Register line‑item routes
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, nil)) // TODO: provide a concrete LineItemRepository implementation
-	r.Get("/transactions", handlers.TransactionsIndex)
+
+	// Register transaction routes with stub repository
+	transactionRepo := db.NewStubTransactionRepo()
+	r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
