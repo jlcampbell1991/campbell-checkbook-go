@@ -35,7 +35,7 @@ func (m *mockRepo) Index(ctx context.Context) ([]domain.Account, error) {
 
 func TestAccountsIndexHandler(t *testing.T) {
 	// Parse templates with helpers
-	funcMap := template.FuncMap{"Format": domain.Format, "IsWithdrawal": domain.IsWithdrawal}
+	funcMap := template.FuncMap{"Format": domain.Format, "IsWithdrawal": domain.IsWithdrawal, "Value": domain.Value}
 	tmpl, err := template.New("").Funcs(funcMap).ParseGlob("../../views/**/*.tmpl")
 	if err != nil {
 		t.Fatalf("failed to parse templates: %v", err)

@@ -44,7 +44,7 @@ func main() {
 	db.RunMigrations(dsn)
 
 	// Parse all layout templates
-	tmpl, err := template.New("").Funcs(template.FuncMap{"Format": domain.Format, "IsWithdrawal": domain.IsWithdrawal}).ParseGlob("views/**/*.tmpl")
+	tmpl, err := template.New("").Funcs(template.FuncMap{"Format": domain.Format, "IsWithdrawal": domain.IsWithdrawal, "Value": domain.Value}).ParseGlob("views/**/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}

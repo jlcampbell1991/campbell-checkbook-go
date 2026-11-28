@@ -7,10 +7,12 @@
   </thead>
   <tbody>
     {{range .LineItems}}
-    <tr>
-      <td>{{.Name}}</td>
-      <td>0.00</td>
-      <td>0.00</td>
+    <tr class='line-items'>
+      <td><a href="/line-items/{{.ID}}">{{.Name}}</a></td>
+      <td class="currency {{IsWithdrawal (Value .Budget)}}">{{Format (Value .Budget)}}</td>
+      <td class="currency {{IsWithdrawal (Value .Balance)}}">{{Format (Value .Balance)}}</td>
+      <td><a href="/accounts/{{.AccountID}}/line-items/{{.ID}}/transactions/new">Add Trans</a></td>
+      <td><a href="/transfers/new?line-item-id={{.ID}}">Transfer</a></td>
     </tr>
     {{end}}
     <tr>
