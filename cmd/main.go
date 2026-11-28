@@ -8,10 +8,14 @@ import (
 	"os"
 	"path/filepath"
 
+	"context"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/db"
+	"github.com/jlcampbell1991/campbell-checkbook-go/internal/domain"
 )
 
 func main() {
@@ -29,12 +33,18 @@ func main() {
 		log.Fatal("failed to ping DB:", err)
 	}
 	log.Println("DB connection successful")
+	// Initialize pgx pool for repository usage
+	pool, err := pgxpool.New(context.Background(), dsn)
+	if err != nil {
+		log.Fatal("failed to create pgx pool:", err)
+	}
+	defer pool.Close()
 
 	// Run migrations (no-op if none present)
 	db.RunMigrations(dsn)
 
 	// Parse all layout templates
-	tmpl, err := template.ParseGlob("views/layouts/*")
+	tmpl, err := template.New("").Funcs(template.FuncMap{"Format": domain.Format, "IsWithdrawal": domain.IsWithdrawal, "Value": domain.Value}).ParseGlob("views/**/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -52,20 +62,8 @@ func main() {
 	jsDir := http.Dir(filepath.Join("static", "javascripts"))
 	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(jsDir)))
 
-	// Home page handler
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		data := struct {
-			Title string
-			Body  template.HTML
-		}{
-			Title: "Home",
-			Body:  template.HTML("<p>Welcome to Campbell Checkbook.</p>"),
-		}
-		// Execute the application layout template
-		if err := tmpl.ExecuteTemplate(w, "application.tmpl", data); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	})
+	// Mount accounts routes (including home page)
+	r.Mount("/", handlers.NewAccountsHandler(db.NewAccountRepository(pool), tmpl).Router())
 
 	port := os.Getenv("PORT")
 	if port == "" {

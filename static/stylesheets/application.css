@@ -4,7 +4,7 @@ html {
     font-size: 2em;
 }
 
-a:link{ 
+a:link {
     color: white;
 }
 
@@ -22,10 +22,11 @@ table {
     width: 99%;
 }
 
-.rows tr:nth-child(even) {
+.rows tbody tr:nth-child(odd) {
     color: white;
     background-color: grey;
 }
+
 .rows tr {
     height: 3em;
 }
@@ -90,7 +91,8 @@ form {
     font-size: 2em
 }
 
-input, select {
+input,
+select {
     height: 3em;
     width: 65%;
     font-size: .3em;
@@ -104,5 +106,5 @@ input, select {
 
 #pay-day-form input {
     width: 50%;
-    
+
 }
