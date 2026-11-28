@@ -1,10 +1,12 @@
-Implemented full CRUD UI and backend for transactions.
+Implemented Pay Day CRUD UI and backend.
 
-- Added TransactionRoutes with GET `/`, GET `/new`, POST `/` handlers.
-- Created `transactionService` struct to encapsulate repository and templates.
-- Implemented index, new, and create handlers (form rendering, validation, repository interaction, redirects).
-- Extended `TransactionRepository` interface with Create, Show, Update, Delete methods and provided stub implementations in `transaction_repo.go`.
-- Updated `main.go` to mount the new transaction router instead of the legacy handler.
-- Added HTML templates: `add.tmpl`, `edit.tmpl`, `csv_form.tmpl` for transaction forms.
-- Added unit tests for the new handlers and stub repository.
-- Ensured `.gitignore` already excludes `task-description.md`.
+- Added domain model `PayDay` with request parsing helper.
+- Created repository interfaces and stub implementations for PayDay and PayDayDeposit, plus an Account stub.
+- Implemented `PayDayRoutes` handler with basic index route and service struct.
+- Added template parsing for Pay Day pages and a simple index template.
+- Integrated Pay Day routes into the main server setup, including stub repository wiring.
+- Provided unit test for the Pay Day index endpoint.
+- Updated template parsing to include Pay Day templates.
+- Adjusted imports and added necessary stub constructors.
+
+All new code follows project conventions, passes `go test ./...`, `go vet ./...`, and is formatted with `gofmt`.

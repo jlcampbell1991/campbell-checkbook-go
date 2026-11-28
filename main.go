@@ -28,7 +28,7 @@ var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl", "views/line_items/*.tmpl")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl", "views/line_items/*.tmpl", "views/pay_days/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -95,6 +95,12 @@ func main() {
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, nil)) // TODO: provide a concrete LineItemRepository implementation
 	transactionRepo := db.TransactionRepo // using stub repository
     r.Mount("/transactions", handlers.TransactionRoutes(tmpl, transactionRepo))
+    // Pay Day routes
+    payDayRepo := db.NewStubPayDayRepo()
+    payDayDepositRepo := db.NewStubPayDayDepositRepo()
+    lineItemRepo := db.NewStubLineItemRepo()
+    accountRepo := db.NewStubAccountRepo()
+    r.Mount("/pay-days", handlers.PayDayRoutes(tmpl, payDayRepo, payDayDepositRepo, lineItemRepo, accountRepo))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
