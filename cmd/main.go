@@ -45,9 +45,12 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	// Serve static assets (CSS and JS)
-	staticDir := http.Dir(filepath.Join("static"))
-	r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(staticDir)))
-	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(staticDir)))
+	// Stylesheets are served from static/stylesheets
+	stylesDir := http.Dir(filepath.Join("static", "stylesheets"))
+	r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(stylesDir)))
+	// JavaScripts are served from static/javascripts
+	jsDir := http.Dir(filepath.Join("static", "javascripts"))
+	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(jsDir)))
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
