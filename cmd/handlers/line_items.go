@@ -1,8 +1,7 @@
 package handlers
 
 import (
-    "context"
-    "fmt"
+        "fmt"
     "html/template"
     "net/http"
     "strconv"

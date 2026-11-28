@@ -20,12 +20,12 @@ func IsWithdrawal(amount float64) bool { return amount < 0 }
 
 func CurrencyFromDouble(v float64) string { return fmt.Sprintf("%.2f", v) }
 
-//go:embed views/layouts/*.tmpl views/layouts/*.html
+//go:embed views/layouts/*.tmpl views/layouts/*.html views/transactions/*.tmpl
 var templateFS embed.FS
 
 func main() {
 	// Parse all layout templates
-	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html")
+	tmpl, err := template.ParseFS(templateFS, "views/layouts/*.tmpl", "views/layouts/*.html", "views/transactions/*.tmpl")
 	if err != nil {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
@@ -45,6 +45,7 @@ func main() {
 
 	// Register line‑item routes
 	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, nil)) // TODO: provide a concrete LineItemRepository implementation
+	r.Get("/transactions", handlers.TransactionsIndex)
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
