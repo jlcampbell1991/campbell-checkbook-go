@@ -1,10 +1,15 @@
 package domain
 
-import "fmt"
+import (
+    "golang.org/x/text/language"
+    "golang.org/x/text/message"
+)
 
 // Format formats a float64 as a currency string with two decimals.
 func Format(v float64) string {
-	return fmt.Sprintf("%.2f", v)
+    // Use a printer for English locale to format with commas and a leading $ sign.
+    p := message.NewPrinter(language.English)
+    return p.Sprintf("$%0.2f", v)
 }
 
 // Value returns the dereferenced float64 or zero if nil.
