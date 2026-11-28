@@ -1,0 +1,13 @@
+{{define "transactions_layout.tmpl"}}
+<table class="transactions">
+    <tr><th>Date</th><th>Category</th><th>Amount</th></tr>
+    {{range .Transactions}}
+    <tr>
+        <td>{{.Date}}</td>
+        <td>{{.Category}}</td>
+        <td class="{{if IsWithdrawal .Amount}}withdrawal{{else}}deposit{{end}}">{{CurrencyFromDouble .Amount}}</td>
+    </tr>
+    {{end}}
+</table>
+<p><a href="{{.NextURL}}">Next</a></p>
+{{end}}

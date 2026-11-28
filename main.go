@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"html/template"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,7 +12,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jlcampbell1991/campbell-checkbook-go/internal/config"
+	"github.com/jlcampbell1991/campbell-checkbook-go/cmd/handlers"
 )
+
+// Template helper functions
+func IsWithdrawal(amount float64) bool { return amount < 0 }
+
+func CurrencyFromDouble(v float64) string { return fmt.Sprintf("%.2f", v) }
 
 //go:embed views/layouts/*.tmpl views/layouts/*.html
 var templateFS embed.FS
@@ -23,6 +30,9 @@ func main() {
 		log.Fatalf("failed to parse templates: %v", err)
 	}
 
+	// Register template functions
+	tmpl = tmpl.Funcs(template.FuncMap{"IsWithdrawal": IsWithdrawal, "CurrencyFromDouble": CurrencyFromDouble})
+
 	config.Load()
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -32,6 +42,9 @@ func main() {
 	staticDir := http.Dir(filepath.Join("static"))
 	r.Handle("/stylesheets/*", http.StripPrefix("/stylesheets/", http.FileServer(staticDir)))
 	r.Handle("/javascripts/*", http.StripPrefix("/javascripts/", http.FileServer(staticDir)))
+
+	// Register line‑item routes
+	r.Mount("/line-items", handlers.LineItemRoutes(tmpl, nil)) // TODO: provide a concrete LineItemRepository implementation
 
 	// Home page handler
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {

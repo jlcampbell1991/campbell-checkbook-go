@@ -1,0 +1,30 @@
+{{define "line_items_show.tmpl"}}
+{{template "application.tmpl" .LineItem.Name}}
+<h2>{{.LineItem.Name}}</h2>
+<table class="resource-menu">
+    <tr>
+        <td><a href="/line-items/{{.LineItem.ID}}/edit">Edit</a></td>
+        <td><a href="/line-items/{{.LineItem.ID}}/delete" onclick="return confirm('Are you sure?')">Delete</a></td>
+        <td><a href="/accounts/{{.LineItem.AccountID}}">Account</a></td>
+    </tr>
+    <tr>
+        <td>Balance</td>
+        <td class="{{if IsWithdrawal .LineItem.Balance}}withdrawal{{else}}deposit{{end}}">{{CurrencyFromDouble .LineItem.Balance}}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><a href="/accounts/{{.LineItem.AccountID}}/line-items/{{.LineItem.ID}}/transactions/new">Add transaction</a></td>
+        <td><a href="/transfers/new?line-item-id={{.LineItem.ID}}">Add Transfer</a></td>
+        <td><a href="/pay-day-deposits/new?line-item-id={{.LineItem.ID}}">Add Pay Day Deposit</a></td>
+    </tr>
+</table>
+{{if gt (len .Deps) 0}}
+    {{template "pay_days_layout.tmpl" .Deps}}
+{{end}}
+{{if gt (len .Transactions) 0}}
+<div class="tables">
+    <h3>Transactions</h3>
+    {{template "transactions_layout.tmpl" .}}
+</div>
+{{end}}
+{{end}}
