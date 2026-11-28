@@ -22,7 +22,7 @@ table {
     width: 99%;
 }
 
-.rows tr:nth-child(odd) {
+.rows tbody tr:nth-child(odd) {
     color: white;
     background-color: grey;
 }
