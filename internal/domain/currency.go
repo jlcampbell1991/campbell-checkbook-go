@@ -7,6 +7,10 @@ import (
 
 // Format formats a float64 as a currency string with two decimals.
 func Format(v float64) string {
+    // Ensure negative values are displayed without the minus sign.
+    if v < 0 {
+        v = -v
+    }
     // Use a printer for English locale to format with commas and a leading $ sign.
     p := message.NewPrinter(language.English)
     return p.Sprintf("$%0.2f", v)
