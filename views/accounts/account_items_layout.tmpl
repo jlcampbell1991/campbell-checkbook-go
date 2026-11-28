@@ -1,0 +1,23 @@
+{{define "account_items_layout"}}
+<table style="min-width: 100px;">
+  <thead>
+    <tr>
+      <th>Item</th><th>Budget</th><th>Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .LineItems}}
+    <tr>
+      <td>{{.Name}}</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    {{end}}
+    <tr>
+      <td><strong>Total</strong></td>
+      <td><strong>0.00</strong></td>
+      <td><strong>0.00</strong></td>
+    </tr>
+  </tbody>
+</table>
+{{end}}

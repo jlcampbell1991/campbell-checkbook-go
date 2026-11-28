@@ -1,0 +1,10 @@
+{{define "accounts_index"}}
+{{template "application" .}}
+{{end}}
+
+{{define "body"}}
+{{range .Accounts}}
+<h2><a href="/accounts/{{.ID}}">{{.Name}}</a></h2>
+{{template "account_items_layout" .}}
+{{end}}
+{{end}}
