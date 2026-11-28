@@ -4,7 +4,11 @@
 
 {{define "body"}}
 {{range .Accounts}}
-<h2><a href="/accounts/{{.ID}}">{{.Name}}</a></h2>
-{{template "account_items_layout" .}}
+<div class="accounts">
+  <h2><a href="/accounts/{{.ID}}">{{.Name}}</a></h2>
+  <div class="tables">
+    {{template "account_items_layout" .}}
+  </div>
+</div>
 {{end}}
 {{end}}

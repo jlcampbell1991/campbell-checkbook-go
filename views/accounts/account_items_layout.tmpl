@@ -1,8 +1,8 @@
 {{define "account_items_layout"}}
-<table style="min-width: 100px;">
+<table class="rows">
   <thead>
     <tr>
-      <th>Item</th><th>Budget</th><th>Balance</th>
+      <th>Item</th><th>Budget</th><th>Balance</th><th></th>
     </tr>
   </thead>
   <tbody>
@@ -17,8 +17,9 @@
     {{end}}
     <tr>
       <td><strong>Total</strong></td>
-      <td><strong>0.00</strong></td>
-      <td><strong>0.00</strong></td>
+      <td class="{{IsWithdrawal (Value .Budget)}}"><strong>{{Format (Value .Budget)}}</strong></td>
+      <td class="{{IsWithdrawal (Value .Balance)}}"><strong>{{Format (Value .Balance)}}</strong></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
